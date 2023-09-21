@@ -2,69 +2,85 @@
 # @Author : Darrius Lei
 # @Email  : darrius.lei@outlook.com
 from dataclasses import dataclass
+from lib import glb_var, util
 import numpy as np
-import torch, os
+import torch, os, time
+
+logger = glb_var.get_value('logger');
 
 #data format: [num_antenna, num_h, ts]
 @dataclass
 class Data():
-    real: None;
-    imag: None;
-    amplitude: None;
-    phase: None;
-    label: None
+    reals: None;
+    imags: None;
+    amplitudes: None;
+    phases: None;
+    labels: None
 
 def cal_amplitude(c):
     '''
     '''
-    return torch.sqrt(c.real ** 2 + c.imag ** 2);
+    return torch.sqrt(c.reals ** 2 + c.imags ** 2);
 
 def cal_phase(c, eps = 1e-50):
-    return torch.atan(c.imag / ( c. real + eps))
+    return torch.atan(c.imags / ( c.reals + eps))
+
+def t_str2float(t_str):
+    return 3600 * int(t_str[0]) + 60 * int(t_str[1]) + float(t_str[2]);
 
 def match_label(t_str, labels):
-    t = 3600 * int(t_str[0]) + 60 * int(t_str[1]) + int(t_str[2]);
+    t = t_str2float(t_str);
     seq_t = 2 * np.arange(1, len(labels) + 1);
     return labels[seq_t >= t][0];
 
 def data_ext(cfg):
     ''''''
+    logger.info(f'Extracting dataset: {cfg["src"]}');
+    t_start = time.time();
     data_lines = open(cfg['src'], 'r').readlines();
+    t_truth = t_str2float(data_lines[-1].split()[:3])
     if cfg['label_cfg']['src'] is not None:
         labels = np.loadtxt(cfg['label_cfg']['src']).astype(np.int8);
         print( 'meta num of labels:', len(labels))
         set_labels = False;
+        t_label = 2* len(labels);
     else:
         set_labels = True;
+        t_label = t_truth;
     Ts = len(data_lines);
-    print('ts:', Ts)
     data = Data(None, None, None, None, None);
     #data format: [num_antenna, num_h, ts]
-    data.real = torch.zeros((4, 64, Ts));
-    data.imag = torch.zeros_like(data.real);
-    data.amplitude = torch.zeros_like(data.real);
-    data.phase = torch.zeros_like(data.real);
-    data.label = torch.zeros((Ts));
+    data.reals = torch.zeros((4, 64, Ts));
+    data.imags = torch.zeros_like(data.reals);
+    data.amplitudes = torch.zeros_like(data.reals);
+    data.phases = torch.zeros_like(data.reals);
+    data.labels = torch.zeros((Ts));
 
     for t, line in enumerate(data_lines):
         complex_strs = line.split()
         if not set_labels:
-            data.label[t] = match_label(complex_strs[:3], labels);
+            data.labels[t] = match_label(complex_strs[:3], labels);
         else:
-            data.label[t] = cfg['label_cfg']['all_label_to'];
+            data.labels[t] = cfg['label_cfg']['all_label_to'];
         del complex_strs[:12]
         for idx, c in enumerate(complex_strs):
             h_complex = complex(c);
-            data.real[idx//64, idx%64, t] = h_complex.real;
-            data.imag[idx//64, idx%64, t] = h_complex.imag;
+            data.reals[idx//64, idx%64, t] = h_complex.real;
+            data.imags[idx//64, idx%64, t] = h_complex.imag;
 
-    data.amplitude = cal_amplitude(data);
-    data.phase = cal_phase(data);
+    data.amplitudes = cal_amplitude(data);
+    data.phases = cal_phase(data);
+    util.clear_output()
+    logger.info(f'Info: dataset: {cfg["src"]}\n'
+    f'length: {Ts}\n'
+    f'truth time/label time: {t_truth:.1f} s/{t_label:.1f} s\n'
+    f'time consumption: {util.s2hms(time.time() - t_start)}')
     return data
 
 def run_pcr(dp_cfg):
     for cfg in dp_cfg.values():
         data = data_ext(cfg)
-        if not os.path.exists(cfg['tgt']):
-            os.makedirs(cfg['tgt'])
+        path, _ = os.path.split(cfg['tgt'])
+        if not os.path.exists(path):
+            os.makedirs(path)
         torch.save(data, cfg['tgt']);
