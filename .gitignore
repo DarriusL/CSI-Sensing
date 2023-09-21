@@ -1,0 +1,21 @@
+# IDEs
+.vscode
+
+# Python
+*.ipynb
+*.pyc
+
+#File
+*.log
+*.data
+*.txt
+*.mat
+*.jpg
+*.pdf
+
+#Data
+__pycache__/
+data/saved/
+cache/
+data/datasets/
+
