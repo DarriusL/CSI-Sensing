@@ -70,8 +70,8 @@ def data_ext(cfg):
 
     data.amplitudes = cal_amplitude(data);
     data.phases = cal_phase(data);
-    util.clear_output()
-    logger.info(f'Info: dataset: {cfg["src"]}\n'
+    logger.info(f'====================Info====================\n'
+    f'dataset: {cfg["src"]}\n'
     f'length: {Ts}\n'
     f'truth time/label time: {t_truth:.1f} s/{t_label:.1f} s\n'
     f'time consumption: {util.s2hms(time.time() - t_start)}')
