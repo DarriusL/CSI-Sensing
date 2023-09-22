@@ -4,7 +4,7 @@
 from dataclasses import dataclass
 from lib import glb_var, util
 import numpy as np
-import torch, os, time
+import torch, os, time, scipy
 
 logger = glb_var.get_value('logger');
 
@@ -38,9 +38,25 @@ def data_ext(cfg):
     logger.info(f'Extracting dataset: {cfg["src"]}');
     t_start = time.time();
     data_lines = open(cfg['src'], 'r').readlines();
-    t_truth = t_str2float(data_lines[-1].split()[:3])
+    if len(data_lines) == 1:
+        #There is no line break between each sampling data in the second round of data set
+        data_lines = np.array(data_lines[0].replace('i', 'j').split()).reshape(-1, 256 + 12)
+        #There is no need to separate by spaces
+        is_line_split = True;
+    else:
+        is_line_split = False;
+    
+    if not is_line_split:
+        t_truth = t_str2float(data_lines[-1].split()[:3]);
+    else:
+        t_truth = t_str2float(data_lines[-1, :3]);
+    
     if cfg['label_cfg']['src'] is not None:
-        labels = np.loadtxt(cfg['label_cfg']['src']).astype(np.int8);
+        _, extension = os.path.splitext(cfg['label_cfg']['src']);
+        if extension == '.txt':
+            labels = np.loadtxt(cfg['label_cfg']['src']).astype(np.int8);
+        elif extension == '.mat':
+            labels = scipy.io.loadmat(cfg['label_cfg']['src'])['truth'].astype(np.int8).squeeze();
         print( 'meta num of labels:', len(labels))
         set_labels = False;
         t_label = 2* len(labels);
@@ -54,10 +70,14 @@ def data_ext(cfg):
     data.imags = torch.zeros_like(data.reals);
     data.amplitudes = torch.zeros_like(data.reals);
     data.phases = torch.zeros_like(data.reals);
-    data.labels = torch.zeros((Ts));
+    data.labels = torch.zeros((Ts), dtype = torch.int64);
 
     for t, line in enumerate(data_lines):
-        complex_strs = line.split()
+        if not is_line_split:
+            complex_strs = line.split();
+        else:
+            complex_strs = line.tolist();
+        
         if not set_labels:
             data.labels[t] = match_label(complex_strs[:3], labels);
         else:
@@ -74,14 +94,16 @@ def data_ext(cfg):
     f'dataset: {cfg["src"]}\n'
     f'length: {Ts}\n'
     f'truth time/label time: {t_truth:.1f} s/{t_label:.1f} s\n'
-    f'Saved directory: {cfg["tgt"]}'
+    f'Saved directory: {cfg["tgt"]}\n'
     f'time consumption: {util.s2hms(time.time() - t_start)}')
     return data
 
 def run_pcr(dp_cfg):
+    t = time.time();
     for cfg in dp_cfg.values():
         data = data_ext(cfg)
         path, _ = os.path.split(cfg['tgt'])
         if not os.path.exists(path):
             os.makedirs(path)
         torch.save(data, cfg['tgt']);
+    logger.info(f'Total processing time: {util.s2hms(time.time() - t)}')
