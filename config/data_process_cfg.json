@@ -94,5 +94,48 @@
             "all_label_to":0
         },
         "tgt":"./data/datasets/process/round_1/room_1/2023_09_09_22_06.data"
+    },
+    "round1_room2_data0":{
+        "src":"./data/datasets/meta/round_1/room_2/part1/csi/csi_2023_09_09_20_55.txt",
+        "label_cfg":{
+            "src": "./data/datasets/meta/round_1/room_2/part1/label/csi_2023_09_09_20_55.txt"
+        },
+        "tgt":"./data/datasets/process/round_1/room_2/2023_09_09_20_55.data"
+    },
+    "round1_room2_data1":{
+        "src":"./data/datasets/meta/round_1/room_2/part1/csi/csi_2023_09_09_21_12.txt",
+        "label_cfg":{
+            "src": "./data/datasets/meta/round_1/room_2/part1/label/csi_2023_09_09_21_12.txt"
+        },
+        "tgt":"./data/datasets/process/round_1/room_2/2023_09_09_21_12.data"
+    },
+    "round1_room2_data2":{
+        "src":"./data/datasets/meta/round_1/room_2/part1/csi/csi_2023_09_09_21_20.txt",
+        "label_cfg":{
+            "src": "./data/datasets/meta/round_1/room_2/part1/label/csi_2023_09_09_21_20.txt"
+        },
+        "tgt":"./data/datasets/process/round_1/room_2/2023_09_09_21_20.data"
+    },
+    "round1_room2_data3":{
+        "src":"./data/datasets/meta/round_1/room_2/part2/csi/csi_2023_09_09_21_43.txt",
+        "label_cfg":{
+            "src": "./data/datasets/meta/round_1/room_2/part2/label/csi_2023_09_09_21_43.txt"
+        },
+        "tgt":"./data/datasets/process/round_1/room_2/2023_09_09_21_43.data"
+    },
+    "round1_room2_data4":{
+        "src":"./data/datasets/meta/round_1/room_2/part2/csi/csi_2023_09_09_21_51.txt",
+        "label_cfg":{
+            "src": "./data/datasets/meta/round_1/room_2/part2/label/csi_2023_09_09_21_51.txt"
+        },
+        "tgt":"./data/datasets/process/round_1/room_2/2023_09_09_21_51.data"
+    },
+    "round1_room2_data5":{
+        "src":"./data/datasets/meta/round_1/room_2/part2/csi/csi_2023_09_09_22_06.txt",
+        "label_cfg":{
+            "src": "./data/datasets/meta/round_1/room_2/part2/label/csi_2023_09_09_22_06.txt"
+        },
+        "tgt":"./data/datasets/process/round_1/room_2/2023_09_09_22_06.data"
     }
+
 }

@@ -74,6 +74,7 @@ def data_ext(cfg):
     f'dataset: {cfg["src"]}\n'
     f'length: {Ts}\n'
     f'truth time/label time: {t_truth:.1f} s/{t_label:.1f} s\n'
+    f'Saved directory: {cfg["tgt"]}'
     f'time consumption: {util.s2hms(time.time() - t_start)}')
     return data
 
