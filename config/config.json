@@ -1,0 +1,15 @@
+{
+    "dataset":{
+        "src":[
+            "./data/datasets/process/round_1/room_0/2023_09_09_20_55.data"
+        ],
+        "loader_cfg":{
+            "csi_feature":[
+                "amplitudes"
+            ],
+            "linux_num_workers":4,
+            "batch_size":256,
+            "shuffle":true
+        }
+    }
+}
