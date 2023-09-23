@@ -6,9 +6,8 @@ import torch, platform
 from lib import glb_var
 
 logger = glb_var.get_value('logger');
-device = glb_var.get_value('device');
 
-class AbstractDataset(torch.utils.data.Dataset):
+class Dataset(torch.utils.data.Dataset):
     '''Abstract Dataset Class'''
     def __init__(self, length) -> None:
         super().__init__();
@@ -21,7 +20,7 @@ class AbstractDataset(torch.utils.data.Dataset):
         logger.error('Method needs to be called after being implemented');
         raise NotImplementedError;
 
-class SingleDataset(AbstractDataset):
+class SingleDataset(Dataset):
     '''Dataset for single data
 
     Sampled data format:
@@ -53,7 +52,7 @@ class MultiDataset(SingleDataset):
                 if feature == features[0]:
                     self.labels = torch.cat((self.labels, data.labels), dim = 0);
             self.datas.append(data_);
-        AbstractDataset.__init__(self, length=len(self.labels));
+        Dataset.__init__(self, length=len(self.labels));
 
 class LoaderWrapper():
     '''Wrapper for loaer
@@ -63,13 +62,15 @@ class LoaderWrapper():
         self.loader = loader;
 
     def __iter__(self):
-        yield iter(self.loader).__next__();
+        device = glb_var.get_value('device')
+        for batch in self.loader:
+            yield (data.to(device) for data in batch)
     
     def process(self):
         pass 
 
 
-def generate_loader(datasets, loader_cfg, mode):
+def generate_LoaderWrapper(datasets, loader_cfg, mode):
     '''Gnerate DataLoader
 
     Parameters:

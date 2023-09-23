@@ -55,6 +55,15 @@ def get_attr(obj, keys):
             dict[key] = getattr(obj, key);
     return dict;
 
+def set_seed(seed):
+    '''
+    '''
+    import torch
+    import numpy as np
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed) 
+
 def get_date(separator = '_'):
     '''Quickly get formated date
     '''

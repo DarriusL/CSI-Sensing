@@ -1,15 +1,33 @@
 {
-    "dataset":{
-        "src":[
-            "./data/datasets/process/round_1/room_0/2023_09_09_20_55.data"
-        ],
-        "loader_cfg":{
-            "csi_feature":[
-                "amplitudes"
+    "gpu_is_available": true,
+    "train":{
+        "dataset":{
+            "src":[
+                "./data/datasets/process/round_1/room_0/2023_09_09_20_55.data"
             ],
-            "linux_num_workers":4,
-            "batch_size":256,
-            "shuffle":true
-        }
+            "loader_cfg":{
+                "csi_feature":[
+                    "amplitudes"
+                ],
+                "linux_num_workers":4,
+                "batch_size":256,
+                "shuffle":true
+            }
+        },
+        "max_epoch":2000,
+        "valid_step": 50,
+        "valid_times":10,
+        "stop_train_step_valid_not_improve": 5,
+        "clip_grad_val":1,
+        "optimizer_cfg":{
+            "name":"Adam",
+            "lr":1e-3,
+            "weight_decay": 1e-08,
+            "betas": [
+                0.9,
+                0.999
+            ]
+        },
+        "lr_schedule_cfg":null
     }
 }

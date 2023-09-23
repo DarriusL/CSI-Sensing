@@ -4,4 +4,4 @@
 from data.processor import *
 from data.loader import *
 
-__all__ = ['run_pcr', 'generate_loader']
+__all__ = ['run_pcr', 'generate_LoaderWrapper']

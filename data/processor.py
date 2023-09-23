@@ -149,6 +149,7 @@ def divide(data, rate):
     n_train = int(np.ceil(n * rate[0]));
     train_idxs = np.random.choice(n, n_train, replace = False);
     valid_idxs = np.array(list(set(range(n)) - set(train_idxs)));
+    train_idxs.sort(), valid_idxs.sort()
     idxs = [train_idxs, valid_idxs];
 
     datasets = {'train': None, 'valid': None};
