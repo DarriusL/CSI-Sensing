@@ -12,6 +12,8 @@
 *.mat
 *.jpg
 *.pdf
+*.gz
+*.rar
 
 #Data
 __pycache__/
