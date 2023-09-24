@@ -23,7 +23,8 @@ def run_work(cfg_path, mode):
     '''
     #load config
     config = json_util.jsonload(cfg_path);
-    
+    glb_var.set_values(json_util.jsonload('./config/constant_cfg.json'), except_type=dict);
+
     #ser random seed
     util.set_seed(config['seed']);
     #initial device
@@ -41,4 +42,4 @@ def run_work(cfg_path, mode):
 
     if mode == 'train':
         trainer = Trainer(config, model);
-        trainer.train();
+        trainer.train(trainer);

@@ -5,7 +5,7 @@
 import torch
 from lib import glb_var, util
 
-logger = glb_var.get_value('log');
+logger = glb_var.get_value('logger');
 
 class Net(torch.nn.Module):
     '''Abstract Net class to define the API methods
@@ -34,3 +34,7 @@ class Net(torch.nn.Module):
         '''Calculate the loss'''
         logger.error('Method needs to be called after being implemented');
         raise NotImplementedError;
+
+    def classifier(self, data):
+        '''General Classifier for all model'''
+        return self.forward(data).argmax(dim = -1);

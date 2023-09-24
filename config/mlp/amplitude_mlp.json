@@ -12,24 +12,12 @@
         ],
         "activation_fn":"relu",
         "category":5,
-        "net_init":true
+        "net_init":true,
+        "loss_fn":"CrossEntropyLoss"
     },
     "train":{
-        "dataset":{
-            "src":[
-                "./data/datasets/process/round_1/room_0/2023_09_09_20_55.data"
-            ],
-            "loader_cfg":{
-                "csi_feature":[
-                    "amplitudes"
-                ],
-                "linux_num_workers":4,
-                "batch_size":256,
-                "shuffle":true
-            }
-        },
-        "max_epoch":2000,
-        "valid_step": 50,
+        "max_epoch":300,
+        "valid_step": 10,
         "valid_times":10,
         "stop_train_step_valid_not_improve": 5,
         "clip_grad_val":1,
@@ -42,6 +30,20 @@
                 0.999
             ]
         },
-        "lr_schedule_cfg":null
+        "lr_schedule_cfg":null,
+        "dataset":{
+            "src":[
+                "./data/datasets/process/round_1/room_0/2023_09_09_20_55.data",
+                "./data/datasets/process/round_2/room_3/2023_09_09_16_02.data"
+            ],
+            "loader_cfg":{
+                "csi_feature":[
+                    "amplitudes"
+                ],
+                "linux_num_workers":4,
+                "batch_size":256,
+                "shuffle":true
+            }
+        }
     }
 }

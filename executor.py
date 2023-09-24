@@ -30,6 +30,19 @@ if __name__ == '__main__':
         sys.exit(0);
 
     #execute work command
-    from room import *
+    from room import run_work
+    if args.config is not None:
+        if args.mode not in ['train', 'train_and_test']:
+            log.error(f'The using of the configuration file does not support the {args.mode} mode. \n'
+                      'Prompt: first use the [train] mode and then use the command [-- saved_config] to run the [test] mode, \n'
+                      'or directly use the [train_and_test] mode');
+            raise CustomException('ModeError');
+        run_work(args.config, args.mode);
+    elif args.saved_config is not None:
+        if args.mode in ['train', 'train_and_test']:
+            log.error('The saved model file only supports test mode');
+            raise CustomException('ModeError');
+        run_work(args.saved_config, args.mode);
+
 
     

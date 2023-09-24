@@ -5,6 +5,7 @@
 from lib import util
 from model import net_util
 from model.framework.base import Net
+import torch
 
 class MLP(Net):
     '''
@@ -12,6 +13,7 @@ class MLP(Net):
     def __init__(self, net_cfg) -> None:
         super().__init__(net_cfg)
         activation_fn = net_util.get_activation_fn(self.activation_fn);
+        self.loss_fn = getattr(torch.nn, net_cfg['loss_fn'])();
         self.net = net_util.get_mlp_net(
             self.hid_layers, 
             activation_fn, 
@@ -27,3 +29,7 @@ class MLP(Net):
         out:[batch_size, category]
         '''
         return self.net(data[0].flatten(1, -1));
+
+    def cal_loss(self, logtis, labels):
+        return self.loss_fn(logtis, labels);
+        

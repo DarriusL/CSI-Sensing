@@ -25,5 +25,5 @@ class Timer(Decorator):
 
     def __call__(self, *args: Any, **kwds: Any) -> Any:
         t = time.time();
-        self.func();
+        self.func(*args, **kwds);
         logger.info(f'The time consumption of {self.func.__name__}: {util.s2hms(time.time() - t)}');
