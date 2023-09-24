@@ -2,7 +2,6 @@
 # @Author : Darrius Lei
 # @Email  : darrius.lei@outlook.com
 
-from lib import util
 from model import net_util
 from model.framework.base import Net
 import torch

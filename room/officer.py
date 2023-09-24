@@ -99,12 +99,13 @@ class Trainer(object):
             loss, acc = self._train_epoch(iter(self.train_wrapper).__next__());
             self.train_loss.append(loss);
             self.train_acc.append(acc);
-            logger.info(colortext.GREEN + f'[{self.model.type}] - [train]' + colortext.RESET + 
-                        f'\n[epoch : {epoch + 1} / {self.max_epoch}] - lr: {self.optimizer.param_groups[0]["lr"]}'
-                        f' - loss:{self.train_loss[-1]:.8f} - '
-                        'acc(' + colortext.BLUE + 'now' + colortext.RESET +'/' + colortext.PURPLE + 'best' + 
-                        colortext.RESET +'):' + colortext.BLUE +f'{self.train_acc[-1]:.8f}' + colortext.RESET + '/' + colortext.PURPLE + 
-                        f'{max(self.train_acc):.8f}'+ colortext.RESET);
+            if self.show_train_info:
+                logger.info(colortext.GREEN + f'[{self.model.type}] - [train]' + colortext.RESET + 
+                            f'\n[epoch : {epoch + 1} / {self.max_epoch}] - lr: {self.optimizer.param_groups[0]["lr"]}'
+                            f' - loss:{self.train_loss[-1]:.8f} - '
+                            'acc(' + colortext.BLUE + 'now' + colortext.RESET +'/' + colortext.PURPLE + 'best' + 
+                            colortext.RESET +'):' + colortext.BLUE +f'{self.train_acc[-1]:.8f}' + colortext.RESET + '/' + colortext.PURPLE + 
+                            f'{max(self.train_acc):.8f}'+ colortext.RESET);
             if self.lr_schedulr is not None:
                 self.lr_schedulr.step();
             if (epoch + 1)%self.valid_step == 0:
@@ -133,6 +134,9 @@ class Trainer(object):
                 if valid_not_improve_cnt >= self.stop_train_step_valid_not_improve:
                     logger.info('Meet the set requirements, stop training');
                     break;
+
+        logger.info(f'[{self.model.type}]Training Summary:\n'
+                    f'best (train/valid) acc : {max(self.train_acc):.8f}/{max(self.valid_acc):.8f}');
 
         plt.figure(figsize = (21, 6));
         plt.subplot(121)

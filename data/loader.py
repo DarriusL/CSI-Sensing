@@ -4,14 +4,28 @@
 
 import torch, platform
 from lib import glb_var
+from collections import Counter
+import numpy as np
 
 logger = glb_var.get_value('logger');
 
 class Dataset(torch.utils.data.Dataset):
     '''Abstract Dataset Class'''
-    def __init__(self, length) -> None:
+    def __init__(self, labels, mode) -> None:
         super().__init__();
-        self.length = length;
+        self.length = len(labels);
+        c = Counter(labels.tolist());
+        keys = list(c.keys());
+        values = np.array(list(c.values()));
+        values = values/values.sum();
+        label_str = 'labels';
+        rate_str = 'rates ';
+        for i in range(len(keys)):
+            label_str += f'|{keys[i]:^9}';
+            rate_str += f'|{values[i]:^9.5f}';
+        logger.info('Data('+ mode +') info\n---------------------------------------------------------\n' +
+                    label_str + '\n' + rate_str);
+
 
     def __len__(self):
         return self.length;
@@ -28,8 +42,9 @@ class SingleDataset(Dataset):
     (data1:[batch_size, 4, 64])
     labels:[batch_size]
     '''
-    def __init__(self, data, features):
-        super().__init__(len(data.labels));
+    def __init__(self, datasets, features, mode):
+        data = datasets[mode] 
+        super().__init__(data.labels, mode);
         #The order is aligned with the order configured in features.
         #for item in datas: [t, 4, 64]
         self.datas = [getattr(data, feature) for feature in features];
@@ -52,7 +67,7 @@ class MultiDataset(SingleDataset):
                 if feature == features[0]:
                     self.labels = torch.cat((self.labels, data.labels), dim = 0);
             self.datas.append(data_);
-        Dataset.__init__(self, length=len(self.labels));
+        Dataset.__init__(self, self.labels, mode);
 
 class LoaderWrapper():
     '''Wrapper for loaer
@@ -86,7 +101,7 @@ def generate_LoaderWrapper(datasets, loader_cfg, mode):
     if isinstance(datasets, dict):
         return LoaderWrapper(
             torch.utils.data.DataLoader(
-                SingleDataset(datasets[mode], loader_cfg['csi_feature']),
+                SingleDataset(datasets, loader_cfg['csi_feature'], mode),
                 num_workers = num_workers,
                 pin_memory = True,
                 batch_size = loader_cfg['batch_size'],
