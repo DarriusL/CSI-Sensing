@@ -2,7 +2,7 @@
 # @Author : Darrius Lei
 # @Email  : darrius.lei@outlook.com
 from dataclasses import dataclass
-from lib import glb_var, util
+from lib import glb_var, util, decorator
 import numpy as np
 import torch, os, time, scipy
 
@@ -175,6 +175,7 @@ def generate_test_data(data, cfg):
     data_.labels =  data.truths;
     return data_;
 
+@decorator.Timer
 def run_pcr(dp_cfg):
     t = time.time();
     for cfg in dp_cfg['datasets'].values():

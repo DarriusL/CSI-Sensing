@@ -12,12 +12,18 @@ class Net(torch.nn.Module):
     '''
     def __init__(self, net_cfg) -> None:
         super().__init__();
-        util.set_attr(self, net_cfg);
+        util.set_attr(self, net_cfg, except_type = dict);
 
-    def _init_para(self):
-        '''Network parameter initialization'''
-        logger.error('Method needs to be called after being implemented');
-        raise NotImplementedError;
+    def _init_para(self, module):
+        if isinstance(module, torch.nn.Embedding):
+            module.weight.data.normal_(mean=0.0, std=1/module.embedding_dim)
+        elif isinstance(module, torch.nn.LayerNorm):
+            module.bias.data.zero_()
+            module.weight.data.fill_(1.0)
+        elif isinstance(module, torch.nn.Linear):
+            module.weight.data.normal_()
+            if module.bias is not None:
+                module.bias.data.zero_()
     
     def forward(self):
         '''network forward pass'''

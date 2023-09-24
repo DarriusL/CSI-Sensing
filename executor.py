@@ -23,7 +23,13 @@ if __name__ == '__main__':
 
     args = parse.parse_args();
 
+    #execute date process command
     if args.data_process:
         from data.processor import run_pcr
         run_pcr(json_util.jsonload('./config/data_process_cfg.json'));
-        sys.exit(0)
+        sys.exit(0);
+
+    #execute work command
+    from room import *
+
+    

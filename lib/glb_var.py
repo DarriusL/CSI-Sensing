@@ -2,7 +2,7 @@
 # @Author : Junwei Lei
 # @Email  : darrius.lei@outlook.com
 
-from lib.callback import CustomException
+from lib.callback import CustomException, util
 import pydash as ps
 '''
 Store global variables for the project
@@ -35,11 +35,8 @@ def __init__():
     global glb_dict;
     glb_dict = {};
 
-def set_values(dict, keys = None):
-    if keys is not None:
-        dict = ps.pick(dict, keys);
-    for key, value in dict.items():
-        glb_dict[key] = value;
+def set_values(dict, keys = None, except_type = None):
+    util.set_attr(glb_dict, keys, except_type)
 
 def set_value(key, value):
     #set global var

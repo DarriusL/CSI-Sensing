@@ -109,6 +109,7 @@ def get_mlp_net(hid_layers, activation_fn, in_dim, out_dim):
             torch.nn.Dropout(glb_var.get_value('dropout_rate')),
             activation_fn] + [
             torch.nn.Linear(hid_layers[i], hid_layers[i+1]) for i in range(len(hid_layers) - 1)] + [
+            torch.nn.Dropout(glb_var.get_value('dropout_rate')),
             activation_fn,
             torch.nn.Linear(hid_layers[-1], out_dim)    
         ];
