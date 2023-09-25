@@ -99,6 +99,7 @@ def data_ext(cfg):
     data.phases = torch.zeros_like(data.reals);
     data.labels = torch.zeros((Ts), dtype = torch.int64);
     data.t_stamps = torch.zeros_like(data.reals);
+    data.truths = torch.from_numpy(labels).to(torch.int64);
 
     for t, line in enumerate(data_lines):
         if not is_line_split:
@@ -110,7 +111,6 @@ def data_ext(cfg):
 
         if not set_labels:
             data.labels[t] = match_label(complex_strs[:3], labels);
-            data.truths = torch.from_numpy(labels).to(torch.int64);
         else:
             data.labels[t] = cfg['label_cfg']['all_label_to'];
         
@@ -131,6 +131,15 @@ def data_ext(cfg):
     f'time consumption: {util.s2hms(time.time() - t_start)}')
     return data
 
+def simplify_data(src):
+    ''''''
+    tgt = Data(None, None, None, None, None, None);
+    tgt.amplitudes = src.amplitudes;
+    tgt.phases = src.phases;
+    tgt.labels = src.labels;
+    return tgt
+
+
 def divide(data, rate):
     '''Divide the data into a training set and a validation set according to a given ratio.
     Hint:This competition test should be data with continuous timestamps. 
@@ -143,6 +152,12 @@ def divide(data, rate):
 
     rate: list
         train:valid
+    
+    Notes:
+    -----------
+    This is an abandoned solution. According to the data division by time slot, 
+    the data in each time period (2s) is very similar, so a separate small data set needs to be used as verification.
+    This code is temporarily retained to accommodate the possibility that packet data may be used later.
     '''
     assert sum(rate) <= 1
     n = len(data.t_stamps);
@@ -156,7 +171,6 @@ def divide(data, rate):
     datas = [];
     for i in range(2):
         data_ = Data(None, None, None, None, None, None);
-        #
         data_.amplitudes = data.amplitudes[idxs[i], :, :];
         data_.phases = data.phases[idxs[i], :, :];
         data_.labels = data.labels[idxs[i]];
@@ -165,7 +179,7 @@ def divide(data, rate):
     datasets['valid'] = datas[1];
     return datasets;
 
-def generate_test_data(data, cfg):
+def generate_test_data(data):
     ''''''
     data_ = Data(None, None, None, None, None, None);
     data_.t_stamps = data.t_stamps;
@@ -177,7 +191,6 @@ def generate_test_data(data, cfg):
 
 @decorator.Timer
 def run_pcr(dp_cfg):
-    t = time.time();
     for cfg in dp_cfg['datasets'].values():
         path, _ = os.path.split(cfg['tgt']);
         if not os.path.exists(path):
@@ -186,6 +199,5 @@ def run_pcr(dp_cfg):
         if 'test_tgt' in cfg.keys():
             test_data = generate_test_data(data, cfg);
             torch.save(test_data, cfg['test_tgt']);
-        data = divide(data, dp_cfg['division_ratio']);
+        data = simplify_data(data);
         torch.save(data, cfg['tgt']);
-    logger.info(f'Total processing time: {util.s2hms(time.time() - t)}');

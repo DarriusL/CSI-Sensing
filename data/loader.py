@@ -42,8 +42,7 @@ class SingleDataset(Dataset):
     (data1:[batch_size, 4, 64])
     labels:[batch_size]
     '''
-    def __init__(self, datasets, features, mode):
-        data = datasets[mode] 
+    def __init__(self, data, features, mode):
         super().__init__(data.labels, mode);
         #The order is aligned with the order configured in features.
         #for item in datas: [t, 4, 64]
@@ -56,8 +55,7 @@ class SingleDataset(Dataset):
 class MultiDataset(SingleDataset):
     '''Dataset for multiple data
     '''
-    def __init__(self, datasets, features, mode):
-        datas = [dataset[mode] for dataset in datasets];
+    def __init__(self, datas, features, mode):
         self.datas = [];
         self.labels = torch.zeros((0), dtype = torch.int64);
         for feature in features:
