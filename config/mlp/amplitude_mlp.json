@@ -49,31 +49,9 @@
                 "./data/datasets/process/round_1/room_2/2023_09_09_21_20.data",
                 "./data/datasets/process/round_1/room_2/2023_09_09_21_43.data",
                 "./data/datasets/process/round_1/room_2/2023_09_09_21_51.data",
-                "./data/datasets/process/round_1/room_2/2023_09_09_22_06.data",
-                "./data/datasets/process/round_2/room_0/2023_09_09_16_02.data",
-                "./data/datasets/process/round_2/room_0/2023_09_09_19_10.data",
-                "./data/datasets/process/round_2/room_0/2023_09_09_19_25.data",
-                "./data/datasets/process/round_2/room_0/2023_09_09_19_53.data",
-                "./data/datasets/process/round_2/room_0/2023_09_09_20_31.data",
-                "./data/datasets/process/round_2/room_0/2023_09_09_20_40.data",
-                "./data/datasets/process/round_2/room_1/2023_09_09_16_02.data",
-                "./data/datasets/process/round_2/room_1/2023_09_09_19_10.data",
-                "./data/datasets/process/round_2/room_1/2023_09_09_19_25.data",
-                "./data/datasets/process/round_2/room_1/2023_09_09_19_53.data",
-                "./data/datasets/process/round_2/room_1/2023_09_09_20_31.data",
-                "./data/datasets/process/round_2/room_1/2023_09_09_20_40.data",
-                "./data/datasets/process/round_2/room_2/2023_09_09_16_02.data",
-                "./data/datasets/process/round_2/room_2/2023_09_09_19_10.data",
-                "./data/datasets/process/round_2/room_2/2023_09_09_19_25.data",
-                "./data/datasets/process/round_2/room_2/2023_09_09_19_53.data",
-                "./data/datasets/process/round_2/room_2/2023_09_09_20_31.data",
-                "./data/datasets/process/round_2/room_2/2023_09_09_20_40.data",
-                "./data/datasets/process/round_2/room_3/2023_09_09_16_02.data",
-                "./data/datasets/process/round_2/room_3/2023_09_09_19_10.data",
-                "./data/datasets/process/round_2/room_3/2023_09_09_19_25.data",
-                "./data/datasets/process/round_2/room_3/2023_09_09_19_53.data",
-                "./data/datasets/process/round_2/room_3/2023_09_09_20_31.data"
+                "./data/datasets/process/round_1/room_2/2023_09_09_22_06.data"
             ],
+            "valid_src":"./data/datasets/process/round_2/room_3/2023_09_09_20_31.data",
             "loader_cfg":{
                 "csi_feature":[
                     "amplitudes"

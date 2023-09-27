@@ -65,6 +65,7 @@ def data_ext(cfg):
     '''
     logger.info(f'Extracting dataset: {cfg["src"]}');
     t_start = time.time();
+    data = Data(None, None, None, None, None, None);
     data_lines = open(cfg['src'], 'r').readlines();
     if len(data_lines) == 1:
         #There is no line break between each sampling data in the second round of data set
@@ -87,19 +88,18 @@ def data_ext(cfg):
             labels = scipy.io.loadmat(cfg['label_cfg']['src'])['truth'].squeeze();
         print( 'meta num of labels:', len(labels))
         set_labels = False;
-        t_label = 2* len(labels);
+        t_label = 2 * len(labels);
+        data.truths = torch.from_numpy(labels).to(torch.int64);
     else:
         set_labels = True;
         t_label = t_truth;
     Ts = len(data_lines);
-    data = Data(None, None, None, None, None, None);
     data.reals = torch.zeros((Ts, 4, 64));
     data.imags = torch.zeros_like(data.reals);
     data.amplitudes = torch.zeros_like(data.reals);
     data.phases = torch.zeros_like(data.reals);
     data.labels = torch.zeros((Ts), dtype = torch.int64);
     data.t_stamps = torch.zeros_like(data.reals);
-    data.truths = torch.from_numpy(labels).to(torch.int64);
 
     for t, line in enumerate(data_lines):
         if not is_line_split:
