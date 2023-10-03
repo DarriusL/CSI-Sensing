@@ -197,7 +197,7 @@ def run_pcr(dp_cfg):
             os.makedirs(path);
         data = data_ext(cfg);
         if 'test_tgt' in cfg.keys():
-            test_data = generate_test_data(data, cfg);
+            test_data = generate_test_data(data);
             torch.save(test_data, cfg['test_tgt']);
         data = simplify_data(data);
         torch.save(data, cfg['tgt']);
