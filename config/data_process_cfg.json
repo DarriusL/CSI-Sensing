@@ -461,35 +461,40 @@
             "label_cfg":{
                 "src": "./data/datasets/meta/round_3/room_3/label/csi_2023_09_11_15_14.txt"
             },
-            "tgt":"./data/datasets/process/round_3/room_3/2023_09_11_15_14.data"
+            "tgt":"./data/datasets/process/round_3/room_3/2023_09_11_15_14.data",
+            "test_tgt":"./data/datasets/process/round_3/room_3/2023_09_11_15_14.test"
         },
         "round3_room3_data1":{
             "src":"./data/datasets/meta/round_3/room_3/csi/csi_2023_09_11_15_31.txt",
             "label_cfg":{
                 "src": "./data/datasets/meta/round_3/room_3/label/csi_2023_09_11_15_31.txt"
             },
-            "tgt":"./data/datasets/process/round_3/room_3/2023_09_11_15_31.data"
+            "tgt":"./data/datasets/process/round_3/room_3/2023_09_11_15_31.data",
+            "test_tgt":"./data/datasets/process/round_3/room_3/2023_09_11_15_31.test"
         },
         "round3_room3_data2":{
             "src":"./data/datasets/meta/round_3/room_3/csi/csi_2023_09_11_21_40.txt",
             "label_cfg":{
                 "src": "./data/datasets/meta/round_3/room_3/label/csi_2023_09_11_21_40.txt"
             },
-            "tgt":"./data/datasets/process/round_3/room_3/2023_09_11_21_40.data"
+            "tgt":"./data/datasets/process/round_3/room_3/2023_09_11_21_40.data",
+            "test_tgt":"./data/datasets/process/round_3/room_3/2023_09_11_21_40.test"
         },
         "round3_room3_data3":{
             "src":"./data/datasets/meta/round_3/room_3/csi/csi_2023_09_11_21_46.txt",
             "label_cfg":{
                 "src": "./data/datasets/meta/round_3/room_3/label/csi_2023_09_11_21_46.txt"
             },
-            "tgt":"./data/datasets/process/round_3/room_3/2023_09_11_21_46.data"
+            "tgt":"./data/datasets/process/round_3/room_3/2023_09_11_21_46.data",
+            "test_tgt":"./data/datasets/process/round_3/room_3/2023_09_11_21_46.test"
         },
         "round3_room3_data4":{
             "src":"./data/datasets/meta/round_3/room_3/csi/csi_2023_09_12_19_10.txt",
             "label_cfg":{
                 "src": "./data/datasets/meta/round_3/room_3/label/csi_2023_09_12_19_10.txt"
             },
-            "tgt":"./data/datasets/process/round_3/room_3/2023_09_12_19_10.data"
+            "tgt":"./data/datasets/process/round_3/room_3/2023_09_12_19_10.data",
+            "test_tgt":"./data/datasets/process/round_3/room_3/2023_09_12_19_10.test"
         }
     }
 }
