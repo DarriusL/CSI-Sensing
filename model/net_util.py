@@ -5,6 +5,7 @@
 #Adapted from https://github.com/DarriusL/DRL-ExampleCode/blob/main/agent/net/net_util.py
 
 import torch
+from model.loss import FocalLoss
 from lib import callback, glb_var, util
 
 logger = glb_var.get_value('logger')
@@ -191,5 +192,11 @@ class NetUpdater():
         if self.epoch % self.update_step == 0:
             self.updater(self.src_net, self.tgt_net);
             logger.debug('Net update.');
-    
 
+#register loss
+setattr(torch.nn, 'FocalLoss', FocalLoss);
+
+def get_loss(loss_cfg):
+    '''
+    '''
+    return getattr(torch.nn, loss_cfg['name'])(loss_cfg);

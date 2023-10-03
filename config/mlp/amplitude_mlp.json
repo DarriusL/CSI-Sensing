@@ -11,7 +11,9 @@
         "activation_fn":"relu",
         "category":5,
         "net_init":true,
-        "loss_fn":"CrossEntropyLoss"
+        "loss_cfg":{
+            "name":"CrossEntropyLoss"
+        }
     },
     "train":{
         "show_train_info":false,

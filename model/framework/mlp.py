@@ -12,7 +12,7 @@ class MLP(Net):
     def __init__(self, net_cfg) -> None:
         super().__init__(net_cfg)
         activation_fn = net_util.get_activation_fn(self.activation_fn);
-        self.loss_fn = getattr(torch.nn, net_cfg['loss_fn'])();
+        self.loss_fn = net_util.get_loss(net_cfg['loss_cfg']);
         self.net = net_util.get_mlp_net(
             self.hid_layers, 
             activation_fn, 
