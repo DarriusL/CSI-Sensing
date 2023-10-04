@@ -83,7 +83,7 @@ def data_ext(cfg):
     if cfg['label_cfg']['src'] is not None:
         _, extension = os.path.splitext(cfg['label_cfg']['src']);
         if extension == '.txt':
-            labels = np.loadtxt(cfg['label_cfg']['src']).astype(np.int8);
+            labels = np.loadtxt(cfg['label_cfg']['src']);
         elif extension == '.mat':
             labels = scipy.io.loadmat(cfg['label_cfg']['src'])['truth'].squeeze();
         print( 'meta num of labels:', len(labels))

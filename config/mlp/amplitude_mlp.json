@@ -12,7 +12,16 @@
         "category":5,
         "net_init":true,
         "loss_cfg":{
-            "name":"CrossEntropyLoss"
+            "name":"FocalLoss",
+            "alphas":[
+                0.0399917,
+                0.22686792,
+                0.2390354,
+                0.2472187,
+                0.24688627
+            ],
+            "gamma":2,
+            "reduction":"mean"
         }
     },
     "train":{
@@ -74,7 +83,6 @@
                 "./data/datasets/process/round_2/room_3/2023_09_09_19_10.data",
                 "./data/datasets/process/round_2/room_3/2023_09_09_19_25.data",
                 "./data/datasets/process/round_2/room_3/2023_09_09_19_53.data",
-                "./data/datasets/process/round_2/room_3/2023_09_09_20_31.data",
                 "./data/datasets/process/round_2/room_3/2023_09_09_20_40.data",
                 "./data/datasets/process/round_3/room_0/2023_09_11_15_14.data",
                 "./data/datasets/process/round_3/room_0/2023_09_11_15_31.data",
@@ -94,10 +102,11 @@
                 "./data/datasets/process/round_3/room_3/2023_09_11_15_14.data",
                 "./data/datasets/process/round_3/room_3/2023_09_11_15_31.data",
                 "./data/datasets/process/round_3/room_3/2023_09_11_21_40.data",
-                "./data/datasets/process/round_3/room_3/2023_09_11_21_46.data"
+                "./data/datasets/process/round_3/room_3/2023_09_11_21_46.data",
+                "./data/datasets/process/round_3/room_3/2023_09_12_19_10.data"
             ],
             "valid_src":[
-                "./data/datasets/process/round_3/room_3/2023_09_12_19_10.test"
+                "./data/datasets/process/round_2/room_3/2023_09_09_20_31.data"
             ],
             "loader_cfg":{
                 "csi_feature":[

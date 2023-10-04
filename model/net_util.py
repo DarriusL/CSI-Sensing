@@ -6,7 +6,6 @@
 
 import torch
 import pydash as ps
-from model.loss import FocalLoss
 from lib import callback, glb_var, util
 
 logger = glb_var.get_value('logger')
@@ -194,10 +193,10 @@ class NetUpdater():
             self.updater(self.src_net, self.tgt_net);
             logger.debug('Net update.');
 
-#register loss
-setattr(torch.nn, 'FocalLoss', FocalLoss);
-
 def get_loss(loss_cfg):
     '''
     '''
+    from model.loss import FocalLoss
+    #register loss
+    setattr(torch.nn, 'FocalLoss', FocalLoss);
     return getattr(torch.nn, loss_cfg['name'])(**ps.omit(loss_cfg, 'name'));

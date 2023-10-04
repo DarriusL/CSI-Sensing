@@ -3,20 +3,12 @@
 # @Email  : darrius.lei@outlook.com
 
 import torch
-from lib import util, glb_var, callback
+from lib import glb_var, callback
 
 logger = glb_var.get_value('logger')
+device = glb_var.get_value('device')
 
-class Loss(torch.nn.Module):
-    def __init__(self, loss_cfg) -> None:
-        super().__init__();
-        util.set_attr(self, loss_cfg);
-
-    def forward(self, logtis, targets):
-        logger.error('Method needs to be called after being implemented');
-        raise NotImplementedError;
-
-class FocalLoss(Loss):
+class FocalLoss(torch.nn.Module):
     ''' Multi-category focal loss with weights
 
     Parameters:
@@ -41,6 +33,7 @@ class FocalLoss(Loss):
             0.01,
             ...
         ],
+        "gamma":2,
         "reduction":"mean"
     }
     
@@ -52,8 +45,11 @@ class FocalLoss(Loss):
 
     [2]https://github.com/li199603/pytorch_focal_loss
     '''
-    def __init__(self, loss_cfg) -> None:
-        super().__init__(loss_cfg);
+    def __init__(self, alphas, gamma = 2, reduction = 'mean') -> None:
+        super().__init__();
+        self.alphas = torch.as_tensor(alphas, device = device);
+        self.gamma = gamma;
+        self.reduction = reduction;
 
     def forward(self, logtis, targets):
         '''
