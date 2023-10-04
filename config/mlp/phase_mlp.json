@@ -101,7 +101,7 @@
             ],
             "loader_cfg":{
                 "csi_feature":[
-                    "amplitudes"
+                    "phases"
                 ],
                 "linux_num_workers":4,
                 "batch_size":512,

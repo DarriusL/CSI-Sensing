@@ -5,6 +5,7 @@
 #Adapted from https://github.com/DarriusL/DRL-ExampleCode/blob/main/agent/net/net_util.py
 
 import torch
+import pydash as ps
 from model.loss import FocalLoss
 from lib import callback, glb_var, util
 
@@ -199,4 +200,4 @@ setattr(torch.nn, 'FocalLoss', FocalLoss);
 def get_loss(loss_cfg):
     '''
     '''
-    return getattr(torch.nn, loss_cfg['name'])(loss_cfg);
+    return getattr(torch.nn, loss_cfg['name'])(**ps.omit(loss_cfg, 'name'));

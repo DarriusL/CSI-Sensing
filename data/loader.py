@@ -2,10 +2,11 @@
 # @Author : Darrius Lei
 # @Email  : darrius.lei@outlook.com
 
+import numpy as np
 import torch, platform
 from lib import glb_var
 from collections import Counter
-import numpy as np
+from data.processor import Data
 
 logger = glb_var.get_value('logger');
 
@@ -96,7 +97,7 @@ def generate_LoaderWrapper(datasets, loader_cfg, mode):
     mode: str
     '''
     num_workers = loader_cfg['linux_num_workers'] if platform.system().lower() == 'linux' else 0;
-    if isinstance(datasets, dict):
+    if isinstance(datasets, Data):
         return LoaderWrapper(
             torch.utils.data.DataLoader(
                 SingleDataset(datasets, loader_cfg['csi_feature'], mode),

@@ -36,16 +36,20 @@ class Trainer(object):
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path);
     
-    def _generate_loaderwrapper(self, dataset_cfg):
-        '''Generate wrapper for training and validation.
-        '''
-        srcs = dataset_cfg['src'];
+    def _load_dataset(self, srcs):
         if len(srcs) == 1:
             datasets = torch.load(srcs[0]);
         elif len(srcs) > 1:
             datasets = [torch.load(src) for src in srcs];
-        train_wrapper = generate_LoaderWrapper(datasets, dataset_cfg['loader_cfg'], mode = 'train');
-        valid_wrapper = generate_LoaderWrapper(datasets, dataset_cfg['loader_cfg'], mode = 'valid');
+        return datasets
+
+    def _generate_loaderwrapper(self, dataset_cfg):
+        '''Generate wrapper for training and validation.
+        '''
+        dataset_train = self._load_dataset(dataset_cfg['src']);
+        dataset_valid = self._load_dataset(dataset_cfg['valid_src'])
+        train_wrapper = generate_LoaderWrapper(dataset_train, dataset_cfg['loader_cfg'], mode = 'train');
+        valid_wrapper = generate_LoaderWrapper(dataset_valid, dataset_cfg['loader_cfg'], mode = 'valid');
         return train_wrapper, valid_wrapper
     
     def _check_nan(self, loss):
