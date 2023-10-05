@@ -36,5 +36,7 @@ python executor.py --data_process=True
 
 ```shell
 python executor.py -cfg='./config/mlp/amplitude_mlp.json' --mode='train'
+python executor.py -cfg='./config/mlp/phase_mlp.json' --mode='train'
+python executor.py -cfg='./config/mlp/mix_mlp.json' --mode='train'
 ```
 
