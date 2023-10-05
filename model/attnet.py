@@ -10,6 +10,7 @@ from lib import glb_var, util, callback
 logger = glb_var.get_value('logger')
 device = glb_var.get_value('device')
 dr = glb_var.get_value('dropout_rate')
+mask2value = glb_var('mask_to_value')
 
 def attn_pad_msk(seq, expand_len, mask_item = [0]):
     '''Return the mask for pad
@@ -184,7 +185,7 @@ class ScaledDotProductAttention(torch.nn.Module):
         #scores:(batch_size, len_q, len_k)
         scores = torch.matmul(Q, K.transpose(-1, -2)) / torch.sqrt(self.temperature);
         if mask is not None:
-            scores.masked_fill_(mask, glb_var.get_value('mask_to_value'))
+            scores.masked_fill_(mask, mask2value)
         #attention:(batch_size, len_q, len_k)*(batch_size, len_v, d)
         return torch.matmul(self.Softmax(scores), input_V);
 
@@ -223,7 +224,7 @@ class ScaledDotProductAttentionLite(torch.nn.Module):
         #Q:(batch_size, len_q, d_q)
         #K:(batch_size, len_k, d_k)
         #scores:(batch_size, n_heads, len_q, len_k) and mask the score with -1e8(for amp)
-        scores = (torch.matmul(Q, K.transpose(-1, -2)) / torch.sqrt(self.temperature)).masked_fill_(mask, glb_var.get_value('mask_to_value'));
+        scores = (torch.matmul(Q, K.transpose(-1, -2)) / torch.sqrt(self.temperature)).masked_fill_(mask, mask2value);
         #attention:(batch_size, n_heads, len_q, d_v)
         return torch.matmul(self.Softmax(scores), V);
         

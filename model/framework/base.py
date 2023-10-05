@@ -23,7 +23,7 @@ class Net(torch.nn.Module):
         elif isinstance(module, torch.nn.Linear):
             module.weight.data.normal_()
             if module.bias is not None:
-                module.bias.data.fill_(1)
+                module.bias.data.fill_(1.0)
     
     def forward(self):
         '''network forward pass'''
