@@ -10,7 +10,7 @@ from lib import glb_var, util, callback
 logger = glb_var.get_value('logger')
 device = glb_var.get_value('device')
 dr = glb_var.get_value('dropout_rate')
-mask2value = glb_var('mask_to_value')
+mask2value = glb_var.get_value('mask_to_value')
 
 def attn_pad_msk(seq, expand_len, mask_item = [0]):
     '''Return the mask for pad
@@ -115,7 +115,7 @@ class LearnablePositionEncoding(torch.nn.Module):
         self.register_buffer('Pos_idx', torch.arange(max_len));
 
     def forward(self, x):
-        return self.Embed(self.Pos_idx[x.shape[1]].unsqueeze(0).repeat(x.shape[0], 1));
+        return self.Embed(self.Pos_idx[x.shape[1] - 1].unsqueeze(0).repeat(x.shape[0], 1));
 
 class PositionwiseFeedForwardNet(torch.nn.Module):
     '''Position-wise Feed-Forward Network for Transformer

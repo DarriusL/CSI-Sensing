@@ -70,10 +70,12 @@ class Encoder(torch.nn.Module):
         return enc_output;
 
 class TSM(Net):
+    '''
+    '''
     def __init__(self, net_cfg) -> None:
         super().__init__(net_cfg)
-        self.encoder = Encoder(self.d, self.d_fc, self.n_heads, self.n_layers, 
-                               self.posenc_buffer_size, self.mask_item, self.is_norm_first);
+        self.encoder = Encoder(64, self.d_fc, self.n_heads, self.n_layers, 
+                               self.posenc_buffer_size, self.is_norm_first);
         self.loss_fn = net_util.get_loss(net_cfg['loss_cfg']);
         activation_fn = net_util.get_activation_fn(self.activation_fn);
         self.dense = net_util.get_mlp_net(
@@ -90,7 +92,7 @@ class TSM(Net):
         in:[batch_size, 4, 64]
         out:[batch_size, category]
         '''
-        return self.dense(self.encoder(data[0]));
+        return self.dense(self.encoder(data[0]).flatten(1, -1));
 
     def cal_loss(self, logtis, labels):
         return self.loss_fn(logtis, labels);

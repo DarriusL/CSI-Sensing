@@ -2,7 +2,7 @@
     "gpu_is_available": true,
     "seed":5566,
     "model":{
-        "type":"AmplitudeMLP",
+        "name":"AmplitudeMLP",
         "hid_layers":[
             64,
             32, 

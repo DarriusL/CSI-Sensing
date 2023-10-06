@@ -2,17 +2,17 @@
     "gpu_is_available": true,
     "seed":5566,
     "model":{
-        "name":"MixMLP",
-        "input_hid_layers":[
+        "name":"AmplitudeTSM",
+        "is_norm_first": true,
+        "d_fc": 2048,
+        "n_heads": 2,
+        "n_layers": 2,
+        "posenc_buffer_size": 4,
+        "hid_layers":[
+            64,
             32, 
             16
         ],
-        "input_out_dim":64,
-        "body_hid_layers":[
-            32, 
-            16
-        ],
-        "num_net":2,
         "activation_fn":"relu",
         "category":5,
         "net_init":true,
@@ -115,8 +115,7 @@
             ],
             "loader_cfg":{
                 "csi_feature":[
-                    "amplitudes",
-                    "phases"
+                    "amplitudes"
                 ],
                 "linux_num_workers":4,
                 "batch_size":512,

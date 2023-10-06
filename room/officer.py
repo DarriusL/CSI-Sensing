@@ -32,7 +32,7 @@ class Trainer(object):
         self.train_wrapper, self.valid_wrapper = self._generate_loaderwrapper(cfg['dataset']);
         self.data_features = len(cfg['dataset']['loader_cfg']['csi_feature'])
         assert 1 <= self.data_features <= 2;
-        self.save_path = './cache/saved/' + self.model.type + '/' + util.get_date() + '/' + util.get_time() + '/';
+        self.save_path = './cache/saved/' + self.model.name + '/' + util.get_date() + '/' + util.get_time() + '/';
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path);
     
@@ -104,7 +104,7 @@ class Trainer(object):
             self.train_loss.append(loss);
             self.train_acc.append(acc);
             if self.show_train_info:
-                logger.info(colortext.GREEN + f'[{self.model.type}] - [train]' + colortext.RESET + 
+                logger.info(colortext.GREEN + f'[{self.model.name}] - [train]' + colortext.RESET + 
                             f'\n[epoch : {epoch + 1} / {self.max_epoch}] - lr: {self.optimizer.param_groups[0]["lr"]}'
                             f' - loss:{self.train_loss[-1]:.8f} - '
                             'acc(' + colortext.BLUE + 'now' + colortext.RESET +'/' + colortext.PURPLE + 'best' + 
@@ -129,7 +129,7 @@ class Trainer(object):
                 else:
                     valid_not_improve_cnt += 1;
 
-                logger.info(colortext.RED +  f'[{self.model.type}] - [valid]' + colortext.RESET + 
+                logger.info(colortext.RED +  f'[{self.model.name}] - [valid]' + colortext.RESET + 
                             f'\n[epoch : {epoch + 1} / {self.max_epoch}] - loss:{self.valid_loss[-1]:.8f}'
                             f' - acc(' + colortext.BLUE + 'now' + colortext.RESET +'/' + colortext.PURPLE + 'best' + 
                             colortext.RESET +'):' + colortext.BLUE +f'{self.valid_acc[-1]:.8f}' + colortext.RESET + '/' + colortext.PURPLE + 
@@ -139,7 +139,7 @@ class Trainer(object):
                     logger.info('Meet the set requirements, stop training');
                     break;
 
-        logger.info(f'[{self.model.type}]Training Summary:\n'
+        logger.info(f'[{self.model.name}]Training Summary:\n'
                     f'best (train/valid) acc : {max(self.train_acc):.8f}/{max(self.valid_acc):.8f}');
 
         plt.figure(figsize = (21, 6));
