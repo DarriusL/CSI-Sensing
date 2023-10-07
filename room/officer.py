@@ -140,7 +140,8 @@ class Trainer(object):
                     break;
 
         logger.info(f'[{self.model.name}]Training Summary:\n'
-                    f'best (train/valid) acc : {max(self.train_acc):.8f}/{max(self.valid_acc):.8f}');
+                    f'best (train/valid) acc : {max(self.train_acc):.8f}/{max(self.valid_acc):.8f}'
+                    f'saving directory: {self.save_path}');
 
         plt.figure(figsize = (21, 6));
         plt.subplot(121)
