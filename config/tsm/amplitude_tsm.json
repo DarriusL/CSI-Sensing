@@ -3,13 +3,12 @@
     "seed":5566,
     "model":{
         "name":"AmplitudeTSM",
-        "is_norm_first": true,
-        "d_fc": 2048,
+        "is_norm_first": false,
+        "d_fc": 64,
         "n_heads": 2,
         "n_layers": 2,
         "posenc_buffer_size": 4,
         "hid_layers":[
-            64,
             32, 
             16
         ],
