@@ -5,7 +5,7 @@
 from data import *
 import numpy as np
 import matplotlib.pyplot as plt
-import torch, os, time
+import torch, os
 from lib import util, glb_var, callback, json_util, colortext, decorator
 
 from model import *
@@ -100,9 +100,16 @@ class Trainer(object):
         ''''''
         epoch_best, valid_not_improve_cnt = 0, 0;
         for epoch in range(self.max_epoch):
-            loss, acc = self._train_epoch(iter(self.train_wrapper).__next__());
-            self.train_loss.append(loss);
-            self.train_acc.append(acc);
+            losses = [];
+            accs = [];
+            for _ in range(self.train_times_per_epoch):
+                batch = iter(self.train_wrapper).__next__();
+                for _ in range(self.batch_learn_times_per_train):
+                    loss, acc = self._train_epoch(batch);
+                    losses.append(loss);
+                    accs.append(acc);
+            self.train_loss.append(np.mean(losses));
+            self.train_acc.append(np.mean(accs));
             if self.show_train_info:
                 logger.info(colortext.GREEN + f'[{self.model.name}] - [train]' + colortext.RESET + 
                             f'\n[epoch : {epoch + 1} / {self.max_epoch}] - lr: {self.optimizer.param_groups[0]["lr"]}'
@@ -140,7 +147,7 @@ class Trainer(object):
                     break;
 
         logger.info(f'[{self.model.name}]Training Summary:\n'
-                    f'best (train/valid) acc : {max(self.train_acc):.8f}/{max(self.valid_acc):.8f}'
+                    f'best (train/valid) acc : {max(self.train_acc):.8f}/{max(self.valid_acc):.8f}\n'
                     f'saving directory: {self.save_path}');
 
         plt.figure(figsize = (21, 6));

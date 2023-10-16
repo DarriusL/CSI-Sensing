@@ -16,16 +16,7 @@
         "category":5,
         "net_init":false,
         "loss_cfg":{
-            "name":"FocalLoss",
-            "alphas":[
-                0.13586,
-                0.17879,
-                0.2112275,
-                0.2335675,
-                0.240555
-            ],
-            "gamma":2,
-            "reduction":"mean"
+            "name":"CrossEntropyLoss"
         }
     },
     "train":{
@@ -98,7 +89,7 @@
                 "./data/datasets/process/round_4/room_0/ap_2/2023_10_16_1.data"
             ],
             "loader_cfg":{
-                "is_sequence":false,
+                "is_sequence":true,
                 "csi_feature":[
                     "amplitudes"
                 ],

@@ -24,7 +24,8 @@ class Dataset(torch.utils.data.Dataset):
         for i in range(len(keys)):
             label_str += f'|{keys[i]:^9}';
             rate_str += f'|{values[i]:^9.5f}';
-        logger.info('Data('+ mode +') info\n---------------------------------------------------------\n' +
+        logger.info('Data( '+ mode +f' - total length: [{self.length}] ) info' + 
+                    '\n---------------------------------------------------------\n' +
                     label_str + '\n' + rate_str);
 
 
@@ -55,6 +56,11 @@ class SingleDataset(Dataset):
 
 class MultiDataset(SingleDataset):
     '''Dataset for multiple data
+
+    Sampled data format:
+    data0: [batch_size, 4, 64]
+    (data1:[batch_size, 4, 64])
+    labels:[batch_size]
     '''
     def __init__(self, datas, features, mode):
         self.datas = [];
@@ -67,6 +73,32 @@ class MultiDataset(SingleDataset):
                     self.labels = torch.cat((self.labels, data.labels), dim = 0);
             self.datas.append(data_);
         Dataset.__init__(self, self.labels, mode);
+
+class SeqDataset(Dataset):
+    '''Dataset for loading sequence data
+
+    Sampled data format:
+    data0: [batch_size, t, 4, 64]
+    (data1:[batch_size, t, 4, 64])
+    labels:[batch_size]
+    where t is regarded as the sequence length
+    '''
+    def __init__(self, datas, features, mode) -> None:
+        self.datas = [];
+        labels = [];
+        for feature in features:
+            data_ = [];
+            for data in datas:
+                if feature == features[0]:
+                    labels.append(data.labels.to(torch.int64))
+                data_.append(getattr(data, feature));
+            self.datas.append(data_);
+        super().__init__(torch.cat(labels, dim = 0), mode);
+        self.labels = labels;
+        self.length = len(labels)
+
+    def __getitem__(self, index):
+        return tuple([data[index] for data in self.datas] + [self.labels[index]]);
 
 class LoaderWrapper():
     '''Wrapper for loaer
@@ -97,7 +129,8 @@ def generate_LoaderWrapper(datasets, loader_cfg, mode):
     mode: str
     '''
     num_workers = loader_cfg['linux_num_workers'] if platform.system().lower() == 'linux' else 0;
-    if isinstance(datasets, Data):
+    is_sequence = loader_cfg['is_sequence'];
+    if isinstance(datasets, Data) and not is_sequence:
         return LoaderWrapper(
             torch.utils.data.DataLoader(
                 SingleDataset(datasets, loader_cfg['csi_feature'], mode),
@@ -107,10 +140,20 @@ def generate_LoaderWrapper(datasets, loader_cfg, mode):
                 shuffle = loader_cfg['shuffle']
                 )
             );
-    elif isinstance(datasets, list):
+    elif isinstance(datasets, list) and not is_sequence:
         return LoaderWrapper(
             torch.utils.data.DataLoader(
                 MultiDataset(datasets, loader_cfg['csi_feature'], mode),
+                num_workers = num_workers,
+                pin_memory = True,
+                batch_size = loader_cfg['batch_size'],
+                shuffle = loader_cfg['shuffle'] 
+            )
+        );
+    elif isinstance(datasets, list) and is_sequence:
+        return LoaderWrapper(
+            torch.utils.data.DataLoader(
+                SeqDataset(datasets, loader_cfg['csi_feature'], mode),
                 num_workers = num_workers,
                 pin_memory = True,
                 batch_size = loader_cfg['batch_size'],

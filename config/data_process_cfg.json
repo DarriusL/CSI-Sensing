@@ -495,6 +495,198 @@
             },
             "tgt":"./data/datasets/process/round_3/room_3/2023_09_12_19_10.data",
             "test_tgt":"./data/datasets/process/round_3/room_3/2023_09_12_19_10.test"
+        },
+        "round4_room0_ap1_data0":{
+            "src":"./data/datasets/meta/round_4/room_0/AP_1/data/csi_2023_10_16_1.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_0/AP_1/truth/csi_2023_10_16_1_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_0/ap_1/2023_10_16_1.data",
+            "test_tgt":"./data/datasets/process/round_4/room_0/ap_1/2023_10_16_1.test"
+        },
+        "round4_room0_ap1_data1":{
+            "src":"./data/datasets/meta/round_4/room_0/AP_1/data/csi_2023_10_16_2.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_0/AP_1/truth/csi_2023_10_16_2_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_0/ap_1/2023_10_16_2.data",
+            "test_tgt":"./data/datasets/process/round_4/room_0/ap_1/2023_10_16_2.test"
+        },
+        "round4_room0_ap1_data2":{
+            "src":"./data/datasets/meta/round_4/room_0/AP_1/data/csi_2023_10_16_3.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_0/AP_1/truth/csi_2023_10_16_3_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_0/ap_1/2023_10_16_3.data",
+            "test_tgt":"./data/datasets/process/round_4/room_0/ap_1/2023_10_16_3.test"
+        },
+        "round4_room0_ap2_data0":{
+            "src":"./data/datasets/meta/round_4/room_0/AP_2/data/csi_2023_10_16_1.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_0/AP_2/truth/csi_2023_10_16_1_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_0/ap_2/2023_10_16_1.data",
+            "test_tgt":"./data/datasets/process/round_4/room_0/ap_2/2023_10_16_1.test"
+        },
+        "round4_room0_ap2_data1":{
+            "src":"./data/datasets/meta/round_4/room_0/AP_2/data/csi_2023_10_16_2.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_0/AP_2/truth/csi_2023_10_16_2_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_0/ap_2/2023_10_16_2.data",
+            "test_tgt":"./data/datasets/process/round_4/room_0/ap_2/2023_10_16_2.test"
+        },
+        "round4_room0_ap2_data2":{
+            "src":"./data/datasets/meta/round_4/room_0/AP_2/data/csi_2023_10_16_3.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_0/AP_2/truth/csi_2023_10_16_3_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_0/ap_2/2023_10_16_3.data",
+            "test_tgt":"./data/datasets/process/round_4/room_0/ap_2/2023_10_16_3.test"
+        },
+        "round4_room1_ap1_data0":{
+            "src":"./data/datasets/meta/round_4/room_1/AP_1/data/csi_2023_10_16_1.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_1/AP_1/truth/csi_2023_10_16_1_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_1/ap_1/2023_10_16_1.data",
+            "test_tgt":"./data/datasets/process/round_4/room_1/ap_1/2023_10_16_1.test"
+        },
+        "round4_room1_ap1_data1":{
+            "src":"./data/datasets/meta/round_4/room_1/AP_1/data/csi_2023_10_16_2.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_1/AP_1/truth/csi_2023_10_16_2_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_1/ap_1/2023_10_16_2.data",
+            "test_tgt":"./data/datasets/process/round_4/room_1/ap_1/2023_10_16_2.test"
+        },
+        "round4_room1_ap1_data2":{
+            "src":"./data/datasets/meta/round_4/room_1/AP_1/data/csi_2023_10_16_3.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_1/AP_1/truth/csi_2023_10_16_3_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_1/ap_1/2023_10_16_3.data",
+            "test_tgt":"./data/datasets/process/round_4/room_1/ap_1/2023_10_16_3.test"
+        },
+        "round4_room1_ap2_data0":{
+            "src":"./data/datasets/meta/round_4/room_1/AP_2/data/csi_2023_10_16_1.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_1/AP_2/truth/csi_2023_10_16_1_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_1/ap_2/2023_10_16_1.data",
+            "test_tgt":"./data/datasets/process/round_4/room_1/ap_2/2023_10_16_1.test"
+        },
+        "round4_room1_ap2_data1":{
+            "src":"./data/datasets/meta/round_4/room_1/AP_2/data/csi_2023_10_16_2.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_1/AP_2/truth/csi_2023_10_16_2_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_1/ap_2/2023_10_16_2.data",
+            "test_tgt":"./data/datasets/process/round_4/room_1/ap_2/2023_10_16_2.test"
+        },
+        "round4_room1_ap2_data2":{
+            "src":"./data/datasets/meta/round_4/room_1/AP_2/data/csi_2023_10_16_3.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_1/AP_2/truth/csi_2023_10_16_3_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_1/ap_2/2023_10_16_3.data",
+            "test_tgt":"./data/datasets/process/round_4/room_1/ap_2/2023_10_16_3.test"
+        },
+        "round4_room2_ap1_data0":{
+            "src":"./data/datasets/meta/round_4/room_2/AP_1/data/csi_2023_10_16_1.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_2/AP_1/truth/csi_2023_10_16_1_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_2/ap_1/2023_10_16_1.data",
+            "test_tgt":"./data/datasets/process/round_4/room_2/ap_1/2023_10_16_1.test"
+        },
+        "round4_room2_ap1_data1":{
+            "src":"./data/datasets/meta/round_4/room_2/AP_1/data/csi_2023_10_16_2.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_2/AP_1/truth/csi_2023_10_16_2_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_2/ap_1/2023_10_16_2.data",
+            "test_tgt":"./data/datasets/process/round_4/room_2/ap_1/2023_10_16_2.test"
+        },
+        "round4_room2_ap1_data2":{
+            "src":"./data/datasets/meta/round_4/room_2/AP_1/data/csi_2023_10_16_3.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_2/AP_1/truth/csi_2023_10_16_3_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_2/ap_1/2023_10_16_3.data",
+            "test_tgt":"./data/datasets/process/round_4/room_2/ap_1/2023_10_16_3.test"
+        },
+        "round4_room2_ap2_data0":{
+            "src":"./data/datasets/meta/round_4/room_2/AP_2/data/csi_2023_10_16_1.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_2/AP_2/truth/csi_2023_10_16_1_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_2/ap_2/2023_10_16_1.data",
+            "test_tgt":"./data/datasets/process/round_4/room_2/ap_2/2023_10_16_1.test"
+        },
+        "round4_room2_ap2_data1":{
+            "src":"./data/datasets/meta/round_4/room_2/AP_2/data/csi_2023_10_16_2.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_2/AP_2/truth/csi_2023_10_16_2_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_2/ap_2/2023_10_16_2.data",
+            "test_tgt":"./data/datasets/process/round_4/room_2/ap_2/2023_10_16_2.test"
+        },
+        "round4_room2_ap2_data2":{
+            "src":"./data/datasets/meta/round_4/room_2/AP_2/data/csi_2023_10_16_3.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_2/AP_2/truth/csi_2023_10_16_3_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_2/ap_2/2023_10_16_3.data",
+            "test_tgt":"./data/datasets/process/round_4/room_2/ap_2/2023_10_16_3.test"
+        },
+        "round4_room3_ap1_data0":{
+            "src":"./data/datasets/meta/round_4/room_3/AP_1/data/csi_2023_10_16_1.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_3/AP_1/truth/csi_2023_10_16_1_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_3/ap_1/2023_10_16_1.data",
+            "test_tgt":"./data/datasets/process/round_4/room_3/ap_1/2023_10_16_1.test"
+        },
+        "round4_room3_ap1_data1":{
+            "src":"./data/datasets/meta/round_4/room_3/AP_1/data/csi_2023_10_16_2.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_3/AP_1/truth/csi_2023_10_16_2_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_3/ap_1/2023_10_16_2.data",
+            "test_tgt":"./data/datasets/process/round_4/room_3/ap_1/2023_10_16_2.test"
+        },
+        "round4_room3_ap1_data2":{
+            "src":"./data/datasets/meta/round_4/room_3/AP_1/data/csi_2023_10_16_3.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_3/AP_1/truth/csi_2023_10_16_3_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_3/ap_1/2023_10_16_3.data",
+            "test_tgt":"./data/datasets/process/round_4/room_3/ap_1/2023_10_16_3.test"
+        },
+        "round4_room3_ap2_data0":{
+            "src":"./data/datasets/meta/round_4/room_3/AP_2/data/csi_2023_10_16_1.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_3/AP_2/truth/csi_2023_10_16_1_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_3/ap_2/2023_10_16_1.data",
+            "test_tgt":"./data/datasets/process/round_4/room_3/ap_2/2023_10_16_1.test"
+        },
+        "round4_room3_ap2_data1":{
+            "src":"./data/datasets/meta/round_4/room_3/AP_2/data/csi_2023_10_16_2.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_3/AP_2/truth/csi_2023_10_16_2_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_3/ap_2/2023_10_16_2.data",
+            "test_tgt":"./data/datasets/process/round_4/room_3/ap_2/2023_10_16_2.test"
+        },
+        "round4_room3_ap2_data2":{
+            "src":"./data/datasets/meta/round_4/room_3/AP_2/data/csi_2023_10_16_3.txt",
+            "label_cfg":{
+                "src": "./data/datasets/meta/round_4/room_3/AP_2/truth/csi_2023_10_16_3_truth.txt"
+            },
+            "tgt":"./data/datasets/process/round_4/room_3/ap_2/2023_10_16_3.data",
+            "test_tgt":"./data/datasets/process/round_4/room_3/ap_2/2023_10_16_3.test"
         }
     }
 }
