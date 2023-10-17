@@ -103,7 +103,9 @@ class Trainer(object):
             losses = [];
             accs = [];
             for _ in range(self.train_times_per_epoch):
-                batch = iter(self.train_wrapper).__next__();
+                #Why tuple:Iterative generators can only be used once, 
+                # which is equivalent to storing them in temporary variables.
+                batch = tuple(iter(self.train_wrapper).__next__());
                 for _ in range(self.batch_learn_times_per_train):
                     loss, acc = self._train_epoch(batch);
                     losses.append(loss);
@@ -137,8 +139,9 @@ class Trainer(object):
                     valid_not_improve_cnt += 1;
 
                 logger.info(colortext.RED +  f'[{self.model.name}] - [valid]' + colortext.RESET + 
-                            f'\n[epoch : {epoch + 1} / {self.max_epoch}] - loss:{self.valid_loss[-1]:.8f}'
-                            f' - acc(' + colortext.BLUE + 'now' + colortext.RESET +'/' + colortext.PURPLE + 'best' + 
+                            f'\n[epoch : {epoch + 1} / {self.max_epoch}] - loss:{self.valid_loss[-1]:.8f}\n'
+                            f'train acc(now/best):{self.train_acc[-1]:.8f}/{max(self.train_acc):.8f}\n'
+                            f'valid acc(' + colortext.BLUE + 'now' + colortext.RESET +'/' + colortext.PURPLE + 'best' + 
                             colortext.RESET +'):' + colortext.BLUE +f'{self.valid_acc[-1]:.8f}' + colortext.RESET + '/' + colortext.PURPLE + 
                             f'{max(self.valid_acc):.8f}'+ colortext.RESET + 
                             '\n valid_not_improve_cnt:' + colortext.YELLOW + f'{valid_not_improve_cnt}' + colortext.RESET);

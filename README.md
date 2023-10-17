@@ -42,6 +42,7 @@ python executor.py -cfg='./config/mlp/mix_mlp.json' --mode='train'
 
 ```shell
 python executor.py -cfg='./config/tsm/amplitude_tsm.json' --mode='train'
+python executor.py -cfg='./config/tsm/amplitude_seq_tsm.json' --mode='train'
 python executor.py -cfg='./config/tsm/phase_tsm.json' --mode='train'
 ```
 

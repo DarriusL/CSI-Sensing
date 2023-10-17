@@ -84,6 +84,8 @@ class SeqDataset(Dataset):
     where t is regarded as the sequence length
     '''
     def __init__(self, datas, features, mode) -> None:
+        if not isinstance(datas, list):
+            datas = [datas];
         self.datas = [];
         labels = [];
         for feature in features:
@@ -104,16 +106,18 @@ class LoaderWrapper():
     '''Wrapper for loaer
     Reserved for later use, if the data needs to be processed later
     '''
-    def __init__(self, loader) -> None:
+    def __init__(self, loader, is_data_sequence = False) -> None:
         self.loader = loader;
+        self.is_data_sequence = is_data_sequence;
 
     def __iter__(self):
         device = glb_var.get_value('device')
         for batch in self.loader:
+            batch = self._sequeeze(batch) if self.is_data_sequence else batch;
             yield (data.to(device) for data in batch)
     
-    def process(self):
-        pass 
+    def _sequeeze(self, batch):
+        return (data.squeeze(0) for data in batch);
 
 
 def generate_LoaderWrapper(datasets, loader_cfg, mode):
@@ -129,8 +133,8 @@ def generate_LoaderWrapper(datasets, loader_cfg, mode):
     mode: str
     '''
     num_workers = loader_cfg['linux_num_workers'] if platform.system().lower() == 'linux' else 0;
-    is_sequence = loader_cfg['is_sequence'];
-    if isinstance(datasets, Data) and not is_sequence:
+    is_data_sequence = loader_cfg['is_data_sequence'];
+    if isinstance(datasets, Data) and not is_data_sequence:
         return LoaderWrapper(
             torch.utils.data.DataLoader(
                 SingleDataset(datasets, loader_cfg['csi_feature'], mode),
@@ -140,7 +144,7 @@ def generate_LoaderWrapper(datasets, loader_cfg, mode):
                 shuffle = loader_cfg['shuffle']
                 )
             );
-    elif isinstance(datasets, list) and not is_sequence:
+    elif isinstance(datasets, list) and not is_data_sequence:
         return LoaderWrapper(
             torch.utils.data.DataLoader(
                 MultiDataset(datasets, loader_cfg['csi_feature'], mode),
@@ -150,7 +154,8 @@ def generate_LoaderWrapper(datasets, loader_cfg, mode):
                 shuffle = loader_cfg['shuffle'] 
             )
         );
-    elif isinstance(datasets, list) and is_sequence:
+    elif is_data_sequence:
+        assert loader_cfg['batch_size'] == 1
         return LoaderWrapper(
             torch.utils.data.DataLoader(
                 SeqDataset(datasets, loader_cfg['csi_feature'], mode),
@@ -158,7 +163,8 @@ def generate_LoaderWrapper(datasets, loader_cfg, mode):
                 pin_memory = True,
                 batch_size = loader_cfg['batch_size'],
                 shuffle = loader_cfg['shuffle'] 
-            )
+            ),
+            is_data_sequence = True
         );
     else:
         logger.error(f'No suitable module for the input [datasets: {type(datasets)}]');

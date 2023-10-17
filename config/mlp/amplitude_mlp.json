@@ -94,7 +94,7 @@
                 "./data/datasets/process/round_4/room_0/ap_2/2023_10_16_1.data"
             ],
             "loader_cfg":{
-                "is_sequence":false,
+                "is_data_sequence":false,
                 "csi_feature":[
                     "amplitudes"
                 ],
