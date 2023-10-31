@@ -1,6 +1,7 @@
 # @Time   : 2022.03.03
 # @Author : Darrius Lei
 # @Email  : darrius.lei@outlook.com
+import os
 import pydash as ps
 import datetime, time
 from matplotlib import pyplot as plt
@@ -54,6 +55,34 @@ def get_attr(obj, keys):
         if hasattr(obj, key):
             dict[key] = getattr(obj, key);
     return dict;
+
+def find_files(root_dir, end_with = '.txt', decorate = '"', ignores = None):
+    '''Find the file with the corresponding extension from the root directory.
+
+    Parameters:
+    -----------
+    root_dir: the root directory
+
+    end_with: File extension
+
+    decorate:string decoration
+
+    Example:
+    --------
+    >>> #find all files end with '.txt' 
+    >>> from lib.util import find_files
+    >>> files = find_files(
+        root_dir = '/home/data', 
+        end_with = '.txt',
+        decorate = '');
+    '''
+    ignores = [] if ignores is None else ignores;
+    f_files = [];
+    for root, _, files in os.walk(root_dir):
+        for file in files:
+            if file.endswith(end_with) and file not in ignores:
+                f_files.append(decorate + os.path.join(root, file) + decorate);
+    return f_files;
 
 def set_seed(seed):
     '''

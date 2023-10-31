@@ -6,7 +6,7 @@ import argparse, sys, logging, os
 from lib import glb_var, json_util
 from lib.callback import Logger, CustomException
 
-#TODO: Try to use Focal Loss to train, check if it can relieve symptoms
+
 
 if __name__ == '__main__':
     if not os.path.exists('./cache/logger/'):

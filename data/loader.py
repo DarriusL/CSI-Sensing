@@ -10,23 +10,26 @@ from data.processor import Data
 
 logger = glb_var.get_value('logger');
 
+#TODO:change shape
+
 class Dataset(torch.utils.data.Dataset):
     '''Abstract Dataset Class'''
     def __init__(self, labels, mode) -> None:
         super().__init__();
         self.length = len(labels);
-        c = Counter(labels.tolist());
-        keys = list(c.keys());
-        values = np.array(list(c.values()));
-        values = values/values.sum();
-        label_str = 'labels';
-        rate_str = 'rates ';
-        for i in range(len(keys)):
-            label_str += f'|{keys[i]:^9}';
-            rate_str += f'|{values[i]:^9.5f}';
-        logger.info('Data( '+ mode +f' - total length: [{self.length}] ) info' + 
-                    '\n---------------------------------------------------------\n' +
-                    label_str + '\n' + rate_str);
+        for i in range(labels.shape[0]):
+            c = Counter(labels[i, :].tolist());
+            keys = list(c.keys());
+            values = np.array(list(c.values()));
+            values = values/values.sum();
+            label_str = 'labels';
+            rate_str = 'rates ';
+            for i in range(len(keys)):
+                label_str += f'|{keys[i]:^9}';
+                rate_str += f'|{values[i]:^9.5f}';
+            logger.info('Data( '+ mode +f' - total length: [{self.length}] ) info' + 
+                        '\n---------------------------------------------------------\n' +
+                        label_str + '\n' + rate_str);
 
 
     def __len__(self):

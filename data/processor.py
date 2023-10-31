@@ -15,12 +15,12 @@ class Data():
 
     data format:
     ------------
-    t_stamps: [ts]
-    reals: [ts, num_antenna, num_csi]
-    imags: [ts, num_antenna, num_csi]
-    amplitudes: [ts, num_antenna, num_csi]
-    phases: [ts, num_antenna, num_csi]
-    labels: [ts]
+    t_stamps: [T]
+    reals: [M, N, C, T]
+    imags: [M, N, C, T]
+    amplitudes: [M, N, C, T]
+    phases: [M, N, C, T]
+    labels: [L, T]
     '''
     #time stamp is only for test
     t_stamps: None;
@@ -35,7 +35,7 @@ def cal_amplitude(c):
     '''
     return torch.sqrt(c.reals ** 2 + c.imags ** 2);
 
-def cal_phase(c, eps = 1e-50):
+def cal_phase(c, eps = 1e-40):
     '''Calculate the phase for the complex
     '''
     return torch.atan(c.imags / ( c.reals + eps))
@@ -65,11 +65,13 @@ def data_ext(cfg):
     '''
     logger.info(f'Extracting dataset: {cfg["src"]}');
     t_start = time.time();
+    #[M, N, C, T]
+    shape = cfg['shape'];
     data = Data(None, None, None, None, None, None);
     data_lines = open(cfg['src'], 'r').readlines();
     if len(data_lines) == 1:
         #There is no line break between each sampling data in the second round of data set
-        data_lines = np.array(data_lines[0].replace('i', 'j').split()).reshape(-1, 256 + 12)
+        data_lines = np.array(data_lines[0].replace('i', 'j').split()).reshape(-1, np.prod(shape[:3]) + cfg['delete_length'])
         #There is no need to separate by spaces
         is_line_split = True;
     else:
@@ -80,52 +82,61 @@ def data_ext(cfg):
     else:
         t_truth = t_str2float(data_lines[-1, :3]);
     
-    if cfg['label_cfg']['src'] is not None:
-        _, extension = os.path.splitext(cfg['label_cfg']['src']);
-        if extension == '.txt':
-            labels = np.loadtxt(cfg['label_cfg']['src']);
-        elif extension == '.mat':
-            labels = scipy.io.loadmat(cfg['label_cfg']['src'])['truth'].squeeze();
-        print( 'meta num of labels:', len(labels))
-        set_labels = False;
-        t_label = 2 * len(labels);
-        data.truths = torch.from_numpy(labels).to(torch.int64);
+    if cfg['label_cfg']['srcs'] is not None:
+        data.truths = [];
+        labels_fst_dim = len(cfg['label_cfg']['srcs']);
+        for lab_idx in range(labels_fst_dim):
+            _, extension = os.path.splitext(cfg['label_cfg']['srcs'][lab_idx]);
+            if extension == '.txt':
+                labels = np.loadtxt(cfg['label_cfg']['srcs'][lab_idx]);
+            elif extension == '.mat':
+                labels = scipy.io.loadmat(cfg['label_cfg']['srcs'][lab_idx])['truth'].squeeze();
+            set_labels = False;
+            t_label = 2 * len(labels);
+            data.truths.append(labels);
+            if not lab_idx:
+                all_labels = np.zeros((labels_fst_dim, len(labels)))
+            all_labels[lab_idx, :] = labels;
+        data.truths = torch.from_numpy(np.array(data.truths)).to(torch.int64);
     else:
+        labels_fst_dim = 1;
         set_labels = True;
         t_label = t_truth;
-    Ts = len(data_lines);
-    data.reals = torch.zeros((Ts, 4, 64));
+    shape[-1] = len(data_lines) if shape[-1] == -1 else shape[-1];
+    shape = tuple(shape);
+    data.reals = torch.zeros(shape);
     data.imags = torch.zeros_like(data.reals);
     data.amplitudes = torch.zeros_like(data.reals);
     data.phases = torch.zeros_like(data.reals);
-    data.labels = torch.zeros((Ts), dtype = torch.int64);
-    data.t_stamps = torch.zeros_like(data.reals);
+    data.labels = torch.zeros((labels_fst_dim, shape[-1]), dtype = torch.int64);
+    data.t_stamps = torch.zeros((shape[-1]));
 
     for t, line in enumerate(data_lines):
         if not is_line_split:
             complex_strs = line.split();
         else:
             complex_strs = line.tolist();
-        
+
         data.t_stamps[t] = t_str2float(complex_strs[:3]);
 
         if not set_labels:
-            data.labels[t] = match_label(complex_strs[:3], labels);
+            for i in range(labels_fst_dim):
+                data.labels[i:, t] = match_label(complex_strs[:3], all_labels[i, :]);
         else:
-            data.labels[t] = cfg['label_cfg']['all_label_to'];
+            data.labels[0, t] = cfg['label_cfg']['all_label_to'];
         
-        del complex_strs[:12]
+        del complex_strs[:cfg['delete_length']]
 
         for idx, c in enumerate(complex_strs):
             h_complex = complex(c);
-            data.reals[t, idx//64, idx%64] = h_complex.real;
-            data.imags[t, idx//64, idx%64] = h_complex.imag;
+            data.reals[idx//shape[2]//shape[1], idx//shape[2]%shape[1], idx//shape[2], t] = h_complex.real;
+            data.imags[idx//shape[2]//shape[1], idx//shape[2]%shape[1], idx//shape[2], t] = h_complex.imag;
 
     data.amplitudes = cal_amplitude(data);
     data.phases = cal_phase(data);
     logger.info(f'====================Info====================\n'
     f'dataset: {cfg["src"]}\n'
-    f'length: {Ts}\n'
+    f'length: {shape[-1]}\n'
     f'truth time/label time: {t_truth:.1f} s/{t_label:.1f} s\n'
     f'Saved directory: {cfg["tgt"]}\n'
     f'time consumption: {util.s2hms(time.time() - t_start)}')
@@ -191,7 +202,7 @@ def generate_test_data(data):
 
 @decorator.Timer
 def run_pcr(dp_cfg):
-    for cfg in dp_cfg['datasets'].values():
+    for cfg in dp_cfg.values():
         path, _ = os.path.split(cfg['tgt']);
         if not os.path.exists(path):
             os.makedirs(path);
