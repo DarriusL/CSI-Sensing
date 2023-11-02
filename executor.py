@@ -19,7 +19,7 @@ if __name__ == '__main__':
     glb_var.set_value('logger', log);
     glb_var.set_values(json_util.jsonload('./config/constant_cfg.json'), except_type=dict);
     parse = argparse.ArgumentParser();
-    parse.add_argument('--data_process_cfg', '-dp_cfg', type = bool, default = None, help = 'Config to process data');
+    parse.add_argument('--data_process_cfg', '-dp_cfg', type = str, default = None, help = 'Config to process data');
     parse.add_argument('--config', '-cfg', type = str, default = None, help = 'config for run');
     parse.add_argument('--saved_config', '-sc', type = str, default = None, help = 'path for saved config to test')
     parse.add_argument('--mode', type = str, default = 'train', help = 'train/test/train_and_test')
