@@ -50,9 +50,9 @@ class Encoder(torch.nn.Module):
         )
 
     def forward(self, enc_input):
-        #enc_input:(batch_size, antennas, d)
-        #enc_output:(batch_size, antennas, d)
-        #mask:(batch_size, antennas, antennas)
+        #enc_input:(batch_size, seq_len, d)
+        #enc_output:(batch_size, seq_len, d)
+        #mask:(batch_size, seq_len, seq_len)
 
         enc_output = enc_input + self.pos_embed(enc_input);
         enc_output = self.embed_dropout(enc_output);
@@ -63,10 +63,10 @@ class Encoder(torch.nn.Module):
         x|x|x|o
         '''
         mask = attnet.attn_subsequence_mask(enc_input);
-        mask = torch.bitwise_or(mask, mask.transpose(-1, -2));
+        #mask = torch.bitwise_or(mask, mask.transpose(-1, -2));
         for layer in self.Layers:
             enc_output = layer(enc_output, mask);
-        #return:(batch_size, antennas, d)
+        #return:(batch_size, seq_len, d)
         return enc_output;
 
 class TSM(Net):
@@ -74,26 +74,38 @@ class TSM(Net):
     '''
     def __init__(self, net_cfg) -> None:
         super().__init__(net_cfg)
-        self.encoder = Encoder(64, self.d_fc, self.n_heads, self.n_layers, 
+        self.batch_size, M, N, C, self.Ts = self.input_dim;
+        self.encoder = Encoder(self.Ts, self.d_fc, self.n_heads, self.n_layers, 
                                self.posenc_buffer_size, self.is_norm_first);
         self.loss_fn = net_util.get_loss(net_cfg['loss_cfg']);
         activation_fn = net_util.get_activation_fn(self.activation_fn);
-        self.dense = net_util.get_mlp_net(
+        self.denses = torch.nn.ModuleList([net_util.get_mlp_net(
             self.hid_layers, 
             activation_fn, 
-            in_dim = 4*64, 
-            out_dim = self.category);
+            in_dim = M*N*C*self.Ts, 
+            out_dim = self.category) for _ in range(self.n_outnets)]);
         if self.net_init:
             self.apply(self._init_para);
     
     def forward(self, data):
         '''
         data: list
-        in:[batch_size, 4, 64]
-        out:[batch_size, category]
+        in:[batch_size, M, N, C, Ts]
+        out:[batch_size, L, category]
         '''
-        return self.dense(self.encoder(data[0]).flatten(1, -1));
+        out = torch.zeros((self.batch_size, 0, self.category));
+        feature = self.encoder(data[0].reshape(self.batch_size, -1, self.Ts)).flatten(1, -1);
+        for dense in self.denses:
+            out = torch.cat((out, dense(feature).unsqueeze(1)), dim = 1);
+        return out;
 
     def cal_loss(self, logtis, labels):
-        return self.loss_fn(logtis, labels);
+        '''
+        logits:[batch_size, L, category]
+        labels:[batch_size, L]
+        '''
+        loss = torch.zeros((1));
+        for l in range(self.n_outnets):
+            loss = loss + self.loss_fn(logtis[:, l, :], labels[:, l])
+        return ;
         

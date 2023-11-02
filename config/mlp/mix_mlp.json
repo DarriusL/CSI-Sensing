@@ -3,6 +3,13 @@
     "seed":5566,
     "model":{
         "name":"MixMLP",
+        "input_dim":[
+            -1,
+            1,
+            4,
+            64,
+            50
+        ],
         "input_hid_layers":[
             32, 
             16

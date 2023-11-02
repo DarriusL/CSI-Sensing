@@ -6,7 +6,7 @@ import torch
 from lib import glb_var
 from model import net_util
 from model.framework.base import Net
-
+#TODO: Multiple output
 device = glb_var.get_value('device')
 
 class MLP(Net):
@@ -14,12 +14,13 @@ class MLP(Net):
     '''
     def __init__(self, net_cfg) -> None:
         super().__init__(net_cfg)
+        M, N, C, Ts = self.input_dim[1:];
         activation_fn = net_util.get_activation_fn(self.activation_fn);
         self.loss_fn = net_util.get_loss(net_cfg['loss_cfg']);
         self.net = net_util.get_mlp_net(
             self.hid_layers, 
             activation_fn, 
-            in_dim = 4*64, 
+            in_dim = M*N*C*Ts, 
             out_dim = self.category);
         if self.net_init:
             self.apply(self._init_para);
@@ -27,7 +28,7 @@ class MLP(Net):
     def forward(self, data):
         '''
         data: list
-        in:[batch_size, 4, 64]
+        in:[batch_size, M, N, C, Ts]
         out:[batch_size, category]
         '''
         return self.net(data[0].flatten(1, -1));

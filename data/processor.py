@@ -7,6 +7,7 @@ import numpy as np
 import torch, os, time, scipy
 
 logger = glb_var.get_value('logger');
+packet_div_t = glb_var.get_value('packet_div_t');
 
 @dataclass
 class Data():
@@ -15,15 +16,22 @@ class Data():
 
     data format:
     ------------
-    t_stamps: [T]
-    reals: [M, N, C, T]
-    imags: [M, N, C, T]
-    amplitudes: [M, N, C, T]
-    phases: [M, N, C, T]
-    labels: [L, T]
+    t_stamps: [t] #remove already
+    reals: [P, M, N, C, Ts]
+    imags: [P, M, N, C, Ts]
+    amplitudes: [P, M, N, C, Ts]
+    phases: [P, M, N, C, Ts]
+    labels: [P, L]
+
+    Notes:
+    ------
+    t: Number of sampling points in the data set
+    P: Number of packets
+    M: Number of transmitter antennas
+    N: Number of receiver antennas
+    C: Number of channals
+    Ts: Samples of each packets
     '''
-    #time stamp is only for test
-    t_stamps: None;
     reals: None;
     imags: None;
     amplitudes: None;
@@ -60,18 +68,21 @@ def match_label(t_str, labels):
     seq_t = 2 * np.arange(1, len(labels) + 1);
     return labels[seq_t >= t][0];
 
-def data_ext(cfg):
+def packet_mask(t_stamps, p):
+    return torch.bitwise_and(p*packet_div_t <=t_stamps, t_stamps <= (p+1)*packet_div_t);
+
+def data_ext(cfg, packet_length):
     '''Extract data
     '''
     logger.info(f'Extracting dataset: {cfg["src"]}');
     t_start = time.time();
-    #[M, N, C, T]
-    shape = cfg['shape'];
-    data = Data(None, None, None, None, None, None);
+    #[P, M, N, C, Ts]
+    shape = [-1, cfg['M'], cfg['N'], cfg['C'], packet_length];
+    data = Data(None, None, None, None, None);
     data_lines = open(cfg['src'], 'r').readlines();
     if len(data_lines) == 1:
         #There is no line break between each sampling data in the second round of data set
-        data_lines = np.array(data_lines[0].replace('i', 'j').split()).reshape(-1, np.prod(shape[:3]) + cfg['delete_length'])
+        data_lines = np.array(data_lines[0].replace('i', 'j').split()).reshape(-1, np.prod(shape[1:4]) + cfg['delete_length'])
         #There is no need to separate by spaces
         is_line_split = True;
     else:
@@ -83,33 +94,36 @@ def data_ext(cfg):
         t_truth = t_str2float(data_lines[-1, :3]);
     
     if cfg['label_cfg']['srcs'] is not None:
-        data.truths = [];
-        labels_fst_dim = len(cfg['label_cfg']['srcs']);
-        for lab_idx in range(labels_fst_dim):
+        labels_scd_dim = len(cfg['label_cfg']['srcs']);
+        for lab_idx in range(labels_scd_dim):
             _, extension = os.path.splitext(cfg['label_cfg']['srcs'][lab_idx]);
             if extension == '.txt':
                 labels = np.loadtxt(cfg['label_cfg']['srcs'][lab_idx]);
             elif extension == '.mat':
                 labels = scipy.io.loadmat(cfg['label_cfg']['srcs'][lab_idx])['truth'].squeeze();
-            set_labels = False;
             t_label = 2 * len(labels);
-            data.truths.append(labels);
             if not lab_idx:
-                all_labels = np.zeros((labels_fst_dim, len(labels)))
-            all_labels[lab_idx, :] = labels;
-        data.truths = torch.from_numpy(np.array(data.truths)).to(torch.int64);
+                #[P, L]
+                all_labels = np.zeros((len(labels), labels_scd_dim))
+            all_labels[:, lab_idx] = labels;
+        data.labels = torch.from_numpy(all_labels).to(torch.int64);
     else:
-        labels_fst_dim = 1;
-        set_labels = True;
+        labels_scd_dim = 1;
         t_label = t_truth;
-    shape[-1] = len(data_lines) if shape[-1] == -1 else shape[-1];
+        data.labels = torch.ones((int(np.ceil(t_truth/2)), labels_scd_dim), dtype=torch.int64) * cfg['label_cfg']['all_label_to'];
+
+    shape[0] = data.labels.shape[0];
     shape = tuple(shape);
     data.reals = torch.zeros(shape);
     data.imags = torch.zeros_like(data.reals);
     data.amplitudes = torch.zeros_like(data.reals);
     data.phases = torch.zeros_like(data.reals);
-    data.labels = torch.zeros((labels_fst_dim, shape[-1]), dtype = torch.int64);
-    data.t_stamps = torch.zeros((shape[-1]));
+    data.labels = torch.zeros((shape[0], labels_scd_dim), dtype = torch.int64);
+
+    t_stamps = torch.zeros((len(data_lines)));
+    #[M, N, C, t]
+    reals = torch.zeros(shape[1:4] + (t_stamps.shape[0],))
+    imags = torch.zeros_like(reals);
 
     for t, line in enumerate(data_lines):
         if not is_line_split:
@@ -117,20 +131,27 @@ def data_ext(cfg):
         else:
             complex_strs = line.tolist();
 
-        data.t_stamps[t] = t_str2float(complex_strs[:3]);
-
-        if not set_labels:
-            for i in range(labels_fst_dim):
-                data.labels[i:, t] = match_label(complex_strs[:3], all_labels[i, :]);
-        else:
-            data.labels[0, t] = cfg['label_cfg']['all_label_to'];
+        t_stamps[t] = t_str2float(complex_strs[:3]);
         
         del complex_strs[:cfg['delete_length']]
 
         for idx, c in enumerate(complex_strs):
             h_complex = complex(c);
-            data.reals[idx//shape[2]//shape[1], idx//shape[2]%shape[1], idx//shape[2], t] = h_complex.real;
-            data.imags[idx//shape[2]//shape[1], idx//shape[2]%shape[1], idx//shape[2], t] = h_complex.imag;
+            reals[idx//shape[3]//shape[2], idx//shape[3]%shape[2], idx%shape[3], t] = h_complex.real;
+            imags[idx//shape[3]//shape[2], idx//shape[3]%shape[2], idx%shape[3], t] = h_complex.imag;
+
+    t_idxs = torch.arange(t+1);
+    #match packet
+    for p in range(shape[0]):
+        p_t_idxs = t_idxs[packet_mask(t_stamps, p)];
+        if len(p_t_idxs) < packet_length:
+            logger.error(f'{len(p_t_idxs)}')
+            raise RuntimeError
+        idxs = np.random.choice(len(p_t_idxs), packet_length);
+        idxs.sort();
+        p_t_idx = p_t_idxs[idxs];
+        data.reals[p, :] = reals[:, :, :, p_t_idx];
+        data.imags[p, :] = imags[:, :, :, p_t_idx];
 
     data.amplitudes = cal_amplitude(data);
     data.phases = cal_phase(data);
@@ -144,7 +165,7 @@ def data_ext(cfg):
 
 def simplify_data(src):
     ''''''
-    tgt = Data(None, None, None, None, None, None);
+    tgt = Data(None, None, None, None, None);
     tgt.amplitudes = src.amplitudes;
     tgt.phases = src.phases;
     tgt.labels = src.labels;
@@ -181,7 +202,7 @@ def divide(data, rate):
     datasets = {'train': None, 'valid': None};
     datas = [];
     for i in range(2):
-        data_ = Data(None, None, None, None, None, None);
+        data_ = Data(None, None, None, None, None);
         data_.amplitudes = data.amplitudes[idxs[i], :, :];
         data_.phases = data.phases[idxs[i], :, :];
         data_.labels = data.labels[idxs[i]];
@@ -190,25 +211,13 @@ def divide(data, rate):
     datasets['valid'] = datas[1];
     return datasets;
 
-def generate_test_data(data):
-    ''''''
-    data_ = Data(None, None, None, None, None, None);
-    data_.t_stamps = data.t_stamps;
-    data_.amplitudes = data.amplitudes;
-    data_.phases = data.phases;
-    #No need to match the label.
-    data_.labels =  data.truths;
-    return data_;
-
 @decorator.Timer
 def run_pcr(dp_cfg):
-    for cfg in dp_cfg.values():
+    packet_length = dp_cfg['packet_length'];
+    for cfg in dp_cfg['datasets'].values():
         path, _ = os.path.split(cfg['tgt']);
         if not os.path.exists(path):
             os.makedirs(path);
-        data = data_ext(cfg);
-        if 'test_tgt' in cfg.keys():
-            test_data = generate_test_data(data);
-            torch.save(test_data, cfg['test_tgt']);
+        data = data_ext(cfg, packet_length);
         data = simplify_data(data);
         torch.save(data, cfg['tgt']);

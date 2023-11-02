@@ -3,6 +3,13 @@
     "seed":5566,
     "model":{
         "name":"PhaseTSM",
+        "input_dim":[
+            -1,
+            1,
+            4,
+            64,
+            50
+        ],
         "is_norm_first": true,
         "d_fc": 2048,
         "n_heads": 2,

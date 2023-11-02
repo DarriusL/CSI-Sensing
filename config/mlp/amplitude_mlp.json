@@ -3,6 +3,13 @@
     "seed":5566,
     "model":{
         "name":"AmplitudeMLP",
+        "input_dim":[
+            -1,
+            1,
+            4,
+            64,
+            50
+        ],
         "hid_layers":[
             64,
             32, 

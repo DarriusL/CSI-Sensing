@@ -3,6 +3,14 @@
     "seed":5566,
     "model":{
         "name":"AmplitudeTSM",
+        "input_dim":[
+            -1,
+            1,
+            4,
+            64,
+            50
+        ],
+        "n_outnets":1,
         "is_norm_first": false,
         "d_fc": 64,
         "n_heads": 2,
@@ -103,7 +111,7 @@
                     "amplitudes"
                 ],
                 "linux_num_workers":4,
-                "batch_size":512,
+                "batch_size":32,
                 "shuffle":true
             }
         }

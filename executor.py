@@ -17,6 +17,7 @@ if __name__ == '__main__':
         filename = './cache/logger/logger.log',
     ).get_log()
     glb_var.set_value('logger', log);
+    glb_var.set_values(json_util.jsonload('./config/constant_cfg.json'), except_type=dict);
     parse = argparse.ArgumentParser();
     parse.add_argument('--data_process', '-dp', type = bool, default = False, help = 'Whether to process data(True/False)');
     parse.add_argument('--config', '-cfg', type = str, default = None, help = 'config for run');

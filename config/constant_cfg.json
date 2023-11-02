@@ -1,4 +1,5 @@
 {
     "dropout_rate":0.3,
-    "mask_to_value":-1e+10
+    "mask_to_value":-1e+10,
+    "packet_div_t":2
 }

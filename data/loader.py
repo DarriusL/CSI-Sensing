@@ -17,8 +17,8 @@ class Dataset(torch.utils.data.Dataset):
     def __init__(self, labels, mode) -> None:
         super().__init__();
         self.length = len(labels);
-        for i in range(labels.shape[0]):
-            c = Counter(labels[i, :].tolist());
+        for i in range(labels.shape[1]):
+            c = Counter(labels[:, i].tolist());
             keys = list(c.keys());
             values = np.array(list(c.values()));
             values = values/values.sum();
@@ -43,33 +43,35 @@ class SingleDataset(Dataset):
     '''Dataset for single data
 
     Sampled data format:
-    data0: [batch_size, 4, 64]
-    (data1:[batch_size, 4, 64])
-    labels:[batch_size]
+    data0: [batch_size, M, N, C, Ts]
+    (data1:[batch_size, M, N, C, Ts])
+    labels:[batch_size, L]
     '''
     def __init__(self, data, features, mode):
         super().__init__(data.labels, mode);
         #The order is aligned with the order configured in features.
-        #for item in datas: [t, 4, 64]
+        #for item in data: [P, M, N, C, Ts]
         self.datas = [getattr(data, feature) for feature in features];
         self.labels = data.labels;
 
     def __getitem__(self, index):
-        return tuple([data[index, :, :] for data in self.datas] + [self.labels[index]]);
+        return tuple([data[index, :] for data in self.datas] + [self.labels[index, :]]);
 
 class MultiDataset(SingleDataset):
     '''Dataset for multiple data
 
     Sampled data format:
-    data0: [batch_size, 4, 64]
-    (data1:[batch_size, 4, 64])
-    labels:[batch_size]
+    data0: [batch_size, M, N, C, Ts]
+    (data1:[batch_size, M, N, C, Ts])
+    labels:[batch_size, L]
     '''
     def __init__(self, datas, features, mode):
+        M, N, C, Ts = getattr(datas[0], features[0]).shape[1:];
+        L = datas[0].labels.shape[1];
         self.datas = [];
-        self.labels = torch.zeros((0), dtype = torch.int64);
+        self.labels = torch.zeros((0, L), dtype = torch.int64);
         for feature in features:
-            data_ = torch.zeros((0, 4, 64));
+            data_ = torch.zeros((0, M, N, C, Ts));
             for data in datas:
                 data_ = torch.cat((data_, getattr(data, feature)));
                 if feature == features[0]:
@@ -85,6 +87,10 @@ class SeqDataset(Dataset):
     (data1:[batch_size, t, 4, 64])
     labels:[batch_size]
     where t is regarded as the sequence length
+
+    Notes:
+    ------
+    Already obsolete, do not use
     '''
     def __init__(self, datas, features, mode) -> None:
         if not isinstance(datas, list):
