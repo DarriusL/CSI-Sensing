@@ -1,5 +1,5 @@
 {
-    "packet_length":50,
+    "packet_length":100,
     "datasets":{        
         "round1_room2_data0": {
             "src": "./data/datasets/meta/round_1/room_2/part1/csi/csi_2023_09_09_20_55.txt",
