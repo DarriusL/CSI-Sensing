@@ -71,6 +71,14 @@ def match_label(t_str, labels):
 def packet_mask(t_stamps, p):
     return torch.bitwise_and(p*packet_div_t <=t_stamps, t_stamps <= (p+1)*packet_div_t);
 
+def simple_expand(idxs, length):
+    n = len(idxs);
+    new_idxs = torch.ones(0, dtype = torch.int64);
+    for _ in range(length//n):
+        new_idxs = torch.cat((new_idxs, idxs), dim = 0);
+    new_idxs = torch.cat((new_idxs, idxs[length%n]));
+    return new_idxs;
+
 def data_ext(cfg, packet_length):
     '''Extract data
     '''
@@ -145,13 +153,14 @@ def data_ext(cfg, packet_length):
     for p in range(shape[0]):
         p_t_idxs = t_idxs[packet_mask(t_stamps, p)];
         if len(p_t_idxs) < packet_length:
-            logger.error(f'{len(p_t_idxs)}')
-            raise RuntimeError
-        idxs = np.random.choice(len(p_t_idxs), packet_length);
-        idxs.sort();
-        p_t_idx = p_t_idxs[idxs];
-        data.reals[p, :] = reals[:, :, :, p_t_idx];
-        data.imags[p, :] = imags[:, :, :, p_t_idx];
+            logger.warning(f'[Packet:{p}] Fill {len(p_t_idxs)} to {packet_length}')
+            p_t_idxs = simple_expand(p_t_idxs, packet_length)
+        else:
+            idxs = np.random.choice(len(p_t_idxs), packet_length);
+            idxs.sort();
+            p_t_idxs = p_t_idxs[idxs];
+        data.reals[p, :] = reals[:, :, :, p_t_idxs];
+        data.imags[p, :] = imags[:, :, :, p_t_idxs];
 
     data.amplitudes = cal_amplitude(data);
     data.phases = cal_phase(data);
