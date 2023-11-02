@@ -19,7 +19,7 @@ if __name__ == '__main__':
     glb_var.set_value('logger', log);
     glb_var.set_values(json_util.jsonload('./config/constant_cfg.json'), except_type=dict);
     parse = argparse.ArgumentParser();
-    parse.add_argument('--data_process', '-dp', type = bool, default = False, help = 'Whether to process data(True/False)');
+    parse.add_argument('--data_process_cfg', '-dp_cfg', type = bool, default = None, help = 'Config to process data');
     parse.add_argument('--config', '-cfg', type = str, default = None, help = 'config for run');
     parse.add_argument('--saved_config', '-sc', type = str, default = None, help = 'path for saved config to test')
     parse.add_argument('--mode', type = str, default = 'train', help = 'train/test/train_and_test')
@@ -27,9 +27,9 @@ if __name__ == '__main__':
     args = parse.parse_args();
 
     #execute date process command
-    if args.data_process:
+    if args.data_process_cfg is not None:
         from data.processor import run_pcr
-        run_pcr(json_util.jsonload('./config/data_process_cfg.json'));
+        run_pcr(json_util.jsonload(args.data_process_cfg));
         sys.exit(0);
 
     #execute work command

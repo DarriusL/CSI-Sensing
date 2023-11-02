@@ -9,15 +9,15 @@ Code for 躺平小分队 in [第一届Wi-Fi感知大赛](https://competition.hua
 ### usage
 
 ```shell
-executor.py [-h] [--data_process DATA_PROCESS] [--config CONFIG] [--saved_config SAVED_CONFIG] [--mode MODE]
+ executor.py [-h] [--data_process_cfg DATA_PROCESS_CFG] [--config CONFIG] [--saved_config SAVED_CONFIG] [--mode MODE]
 ```
 
 ### options
 
 ```shell
   -h, --help            show this help message and exit
-  --data_process DATA_PROCESS, -dp DATA_PROCESS
-                        Whether to process data(True/False)
+  --data_process_cfg DATA_PROCESS_CFG, -dp_cfg DATA_PROCESS_CFG
+                        Config to process data
   --config CONFIG, -cfg CONFIG
                         config for run
   --saved_config SAVED_CONFIG, -sc SAVED_CONFIG
@@ -30,8 +30,7 @@ executor.py [-h] [--data_process DATA_PROCESS] [--config CONFIG] [--saved_config
 data processing
 
 ```shell
-python executor.py -dp=True
-python executor.py --data_process=True
+python executor.py -dp_cfg='./config/data_process_cfg/all_with_label.json'
 ```
 
 ```shell
