@@ -76,7 +76,7 @@ def simple_expand(idxs, length):
     new_idxs = torch.ones(0, dtype = torch.int64);
     for _ in range(length//n):
         new_idxs = torch.cat((new_idxs, idxs), dim = 0);
-    new_idxs = torch.cat((new_idxs, idxs[length%n]));
+    new_idxs = torch.cat((new_idxs, idxs[:length%n]), dim = 0);
     return new_idxs;
 
 def data_ext(cfg, packet_length):
