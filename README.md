@@ -31,6 +31,7 @@ data processing
 
 ```shell
 python executor.py -dp_cfg='./config/data_process_cfg/all_with_label.json'
+python executor.py -dp_cfg='./config/data_process_cfg/round_preliminary.json'
 ```
 
 ```shell

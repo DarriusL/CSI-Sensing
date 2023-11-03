@@ -1,6 +1,598 @@
 {
-    "packet_length":50,
-    "datasets":{
-        
+    "packet_length": 50,
+    "is_test_data": true,
+    "datasets": {
+        "officea_room0_data1": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_0/data/csi_2023_10_31_1.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_0/2023_10_31_1.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room0_data2": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_0/data/csi_2023_10_31_2.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_0/2023_10_31_2.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room0_data3": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_0/data/csi_2023_10_31_3.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_0/2023_10_31_3.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room0_data4": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_0/data/csi_2023_10_31_4.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_0/2023_10_31_4.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room0_data5": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_0/data/csi_2023_10_31_5.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_0/2023_10_31_5.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room0_data6": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_0/data/csi_2023_10_31_6.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_0/2023_10_31_6.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room0_data7": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_0/data/csi_2023_10_31_7.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_0/2023_10_31_7.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room0_data8": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_0/data/csi_2023_10_31_8.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_0/2023_10_31_8.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room1_data1": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_1/data/csi_2023_10_31_1.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_1/2023_10_31_1.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room1_data2": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_1/data/csi_2023_10_31_2.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_1/2023_10_31_2.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room1_data3": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_1/data/csi_2023_10_31_3.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_1/2023_10_31_3.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room1_data4": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_1/data/csi_2023_10_31_4.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_1/2023_10_31_4.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room1_data5": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_1/data/csi_2023_10_31_5.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_1/2023_10_31_5.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room1_data6": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_1/data/csi_2023_10_31_6.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_1/2023_10_31_6.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room1_data7": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_1/data/csi_2023_10_31_7.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_1/2023_10_31_7.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room1_data8": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_1/data/csi_2023_10_31_8.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_1/2023_10_31_8.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room2_data1": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_2/data/csi_2023_10_31_1.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_2/2023_10_31_1.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room2_data2": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_2/data/csi_2023_10_31_2.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_2/2023_10_31_2.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room2_data3": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_2/data/csi_2023_10_31_3.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_2/2023_10_31_3.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room2_data4": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_2/data/csi_2023_10_31_4.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_2/2023_10_31_4.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room2_data5": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_2/data/csi_2023_10_31_5.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_2/2023_10_31_5.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room2_data6": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_2/data/csi_2023_10_31_6.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_2/2023_10_31_6.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room2_data7": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_2/data/csi_2023_10_31_7.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_2/2023_10_31_7.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room2_data8": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_2/data/csi_2023_10_31_8.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_2/2023_10_31_8.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room3_data1": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_3/data/csi_2023_10_31_1.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_3/2023_10_31_1.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room3_data2": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_3/data/csi_2023_10_31_2.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_3/2023_10_31_2.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room3_data3": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_3/data/csi_2023_10_31_3.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_3/2023_10_31_3.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room3_data4": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_3/data/csi_2023_10_31_4.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_3/2023_10_31_4.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room3_data5": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_3/data/csi_2023_10_31_5.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_3/2023_10_31_5.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room3_data6": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_3/data/csi_2023_10_31_6.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_3/2023_10_31_6.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room3_data7": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_3/data/csi_2023_10_31_7.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_3/2023_10_31_7.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officea_room3_data8": {
+            "src": "./data/datasets/meta/round_preliminary/office_a/room_3/data/csi_2023_10_31_8.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_a/room_3/2023_10_31_8.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apcenter_data1": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_center/data/csi_2023_10_31_1.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_center/2023_10_31_1.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apcenter_data2": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_center/data/csi_2023_10_31_2.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_center/2023_10_31_2.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apcenter_data3": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_center/data/csi_2023_10_31_3.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_center/2023_10_31_3.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apcenter_data4": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_center/data/csi_2023_10_31_4.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_center/2023_10_31_4.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apcenter_data5": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_center/data/csi_2023_10_31_5.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_center/2023_10_31_5.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apcenter_data6": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_center/data/csi_2023_10_31_6.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_center/2023_10_31_6.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apleft_data1": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_left/data/csi_2023_10_31_1.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_left/2023_10_31_1.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apleft_data2": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_left/data/csi_2023_10_31_2.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_left/2023_10_31_2.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apleft_data3": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_left/data/csi_2023_10_31_3.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_left/2023_10_31_3.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apleft_data4": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_left/data/csi_2023_10_31_4.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_left/2023_10_31_4.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apleft_data5": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_left/data/csi_2023_10_31_5.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_left/2023_10_31_5.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apleft_data6": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_left/data/csi_2023_10_31_6.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_left/2023_10_31_6.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apright_data1": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_right/data/csi_2023_10_31_1.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_right/2023_10_31_1.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apright_data2": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_right/data/csi_2023_10_31_2.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_right/2023_10_31_2.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apright_data3": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_right/data/csi_2023_10_31_3.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_right/2023_10_31_3.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apright_data4": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_right/data/csi_2023_10_31_4.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_right/2023_10_31_4.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apright_data5": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_right/data/csi_2023_10_31_5.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_right/2023_10_31_5.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "officeb_apright_data6": {
+            "src": "./data/datasets/meta/round_preliminary/office_b/ap_right/data/csi_2023_10_31_6.txt",
+            "tgt": "./data/datasets/process/round_preliminary/office_b/ap_right/2023_10_31_6.data",
+            "delete_length": 12,
+            "M": 1,
+            "N": 4,
+            "C": 64
+        },
+        "famliy1_rooma_data1": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_a/csi_2023_10_31_1.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_a/2023_10_31_1.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy1_rooma_data2": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_a/csi_2023_10_31_2.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_a/2023_10_31_2.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy1_rooma_data3": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_a/csi_2023_10_31_3.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_a/2023_10_31_3.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy1_rooma_data4": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_a/csi_2023_10_31_4.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_a/2023_10_31_4.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy1_rooma_data5": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_a/csi_2023_10_31_5.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_a/2023_10_31_5.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy1_rooma_data6": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_a/csi_2023_10_31_6.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_a/2023_10_31_6.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy1_roomb_data1": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_b/csi_2023_10_31_1.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_b/2023_10_31_1.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy1_roomb_data2": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_b/csi_2023_10_31_2.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_b/2023_10_31_2.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy1_roomb_data3": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_b/csi_2023_10_31_3.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_b/2023_10_31_3.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy1_roomb_data4": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_b/csi_2023_10_31_4.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_b/2023_10_31_4.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy1_roomb_data5": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_b/csi_2023_10_31_5.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_b/2023_10_31_5.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy1_roomb_data6": {
+            "src": "./data/datasets/meta/round_preliminary/family_1/room_b/csi_2023_10_31_6.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_1/room_b/2023_10_31_6.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 250
+        },
+        "famliy2_rooma_data1": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_a/csi_2023_10_31_1.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_a/2023_10_31_1.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        },
+        "famliy2_rooma_data2": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_a/csi_2023_10_31_2.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_a/2023_10_31_2.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        },
+        "famliy2_rooma_data3": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_a/csi_2023_10_31_3.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_a/2023_10_31_3.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        },
+        "famliy2_rooma_data4": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_a/csi_2023_10_31_4.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_a/2023_10_31_4.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        },
+        "famliy2_rooma_data5": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_a/csi_2023_10_31_5.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_a/2023_10_31_5.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        },
+        "famliy2_rooma_data6": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_a/csi_2023_10_31_6.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_a/2023_10_31_6.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        },
+        "famliy2_roomb_data1": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_b/csi_2023_10_31_1.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_b/2023_10_31_1.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        },
+        "famliy2_roomb_data2": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_b/csi_2023_10_31_2.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_b/2023_10_31_2.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        },
+        "famliy2_roomb_data3": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_b/csi_2023_10_31_3.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_b/2023_10_31_3.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        },
+        "famliy2_roomb_data4": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_b/csi_2023_10_31_4.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_b/2023_10_31_4.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        },
+        "famliy2_roomb_data5": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_b/csi_2023_10_31_5.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_b/2023_10_31_5.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        },
+        "famliy2_roomb_data6": {
+            "src": "./data/datasets/meta/round_preliminary/family_2/room_b/csi_2023_10_31_6.txt",
+            "tgt": "./data/datasets/process/round_preliminary/family_2/room_b/2023_10_31_6.data",
+            "delete_length": 8,
+            "M": 2,
+            "N": 2,
+            "C": 248
+        }
     }
 }

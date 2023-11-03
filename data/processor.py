@@ -79,7 +79,7 @@ def simple_expand(idxs, length):
     new_idxs = torch.cat((new_idxs, idxs[:length%n]), dim = 0);
     return new_idxs;
 
-def data_ext(cfg, packet_length):
+def data_ext(cfg, packet_length, is_test_data):
     '''Extract data
     '''
     logger.info(f'Extracting dataset: {cfg["src"]}');
@@ -101,32 +101,34 @@ def data_ext(cfg, packet_length):
     else:
         t_truth = t_str2float(data_lines[-1, :3]);
     
-    if cfg['label_cfg']['srcs'] is not None:
-        labels_scd_dim = len(cfg['label_cfg']['srcs']);
-        for lab_idx in range(labels_scd_dim):
-            _, extension = os.path.splitext(cfg['label_cfg']['srcs'][lab_idx]);
-            if extension == '.txt':
-                labels = np.loadtxt(cfg['label_cfg']['srcs'][lab_idx]);
-            elif extension == '.mat':
-                labels = scipy.io.loadmat(cfg['label_cfg']['srcs'][lab_idx])['truth'].squeeze();
-            t_label = 2 * len(labels);
-            if not lab_idx:
-                #[P, L]
-                all_labels = np.zeros((len(labels), labels_scd_dim))
-            all_labels[:, lab_idx] = labels;
-        data.labels = torch.from_numpy(all_labels).to(torch.int64);
+    if not is_test_data:
+        if cfg['label_cfg']['srcs'] is not None:
+            labels_scd_dim = len(cfg['label_cfg']['srcs']);
+            for lab_idx in range(labels_scd_dim):
+                _, extension = os.path.splitext(cfg['label_cfg']['srcs'][lab_idx]);
+                if extension == '.txt':
+                    labels = np.loadtxt(cfg['label_cfg']['srcs'][lab_idx]);
+                elif extension == '.mat':
+                    labels = scipy.io.loadmat(cfg['label_cfg']['srcs'][lab_idx])['truth'].squeeze();
+                t_label = 2 * len(labels);
+                if not lab_idx:
+                    #[P, L]
+                    all_labels = np.zeros((len(labels), labels_scd_dim))
+                all_labels[:, lab_idx] = labels;
+            data.labels = torch.from_numpy(all_labels).to(torch.int64);
+        else:
+            labels_scd_dim = 1;
+            t_label = t_truth;
+            data.labels = torch.ones((int(np.ceil(t_truth/packet_div_t)), labels_scd_dim), dtype=torch.int64) * cfg['label_cfg']['all_label_to'];
     else:
-        labels_scd_dim = 1;
         t_label = t_truth;
-        data.labels = torch.ones((int(np.ceil(t_truth/2)), labels_scd_dim), dtype=torch.int64) * cfg['label_cfg']['all_label_to'];
 
-    shape[0] = data.labels.shape[0];
+    shape[0] = int(np.ceil(t_truth/packet_div_t));
     shape = tuple(shape);
     data.reals = torch.zeros(shape);
     data.imags = torch.zeros_like(data.reals);
     data.amplitudes = torch.zeros_like(data.reals);
     data.phases = torch.zeros_like(data.reals);
-    data.labels = torch.zeros((shape[0], labels_scd_dim), dtype = torch.int64);
 
     t_stamps = torch.zeros((len(data_lines)));
     #[M, N, C, t]
@@ -145,8 +147,12 @@ def data_ext(cfg, packet_length):
 
         for idx, c in enumerate(complex_strs):
             h_complex = complex(c);
-            reals[idx//shape[3]//shape[2], idx//shape[3]%shape[2], idx%shape[3], t] = h_complex.real;
-            imags[idx//shape[3]//shape[2], idx//shape[3]%shape[2], idx%shape[3], t] = h_complex.imag;
+            if is_test_data and cfg['delete_length'] == 8:
+                reals[idx%(shape[1]*shape[2])//shape[2], idx%(shape[1]*shape[2])%shape[2], idx//(shape[1]*shape[2]), t] = h_complex.real;
+                imags[idx%(shape[1]*shape[2])//shape[2], idx%(shape[1]*shape[2])%shape[2], idx//(shape[1]*shape[2]), t] = h_complex.imag;
+            else:
+                reals[idx//shape[3]//shape[2], idx//shape[3]%shape[2], idx%shape[3], t] = h_complex.real;
+                imags[idx//shape[3]//shape[2], idx//shape[3]%shape[2], idx%shape[3], t] = h_complex.imag;
 
     t_idxs = torch.arange(t+1);
     #match packet
@@ -172,12 +178,13 @@ def data_ext(cfg, packet_length):
     f'time consumption: {util.s2hms(time.time() - t_start)}')
     return data
 
-def simplify_data(src):
+def simplify_data(src, is_test_data):
     ''''''
     tgt = Data(None, None, None, None, None);
     tgt.amplitudes = src.amplitudes;
     tgt.phases = src.phases;
-    tgt.labels = src.labels;
+    if not is_test_data:
+        tgt.labels = src.labels;
     return tgt
 
 
@@ -223,10 +230,11 @@ def divide(data, rate):
 @decorator.Timer
 def run_pcr(dp_cfg):
     packet_length = dp_cfg['packet_length'];
+    is_test_data = dp_cfg['is_test_data'];
     for cfg in dp_cfg['datasets'].values():
         path, _ = os.path.split(cfg['tgt']);
         if not os.path.exists(path):
             os.makedirs(path);
-        data = data_ext(cfg, packet_length);
-        data = simplify_data(data);
+        data = data_ext(cfg, packet_length, is_test_data);
+        data = simplify_data(data, is_test_data);
         torch.save(data, cfg['tgt']);
