@@ -11,14 +11,14 @@
             50
         ],
         "n_outnets":1,
-        "is_norm_first": false,
+        "is_norm_first": true,
         "d_fc": 128,
         "n_heads": 2,
         "n_layers": 2,
         "posenc_buffer_size": 260,
         "hid_layers":[
             32, 
-            16
+            32
         ],
         "activation_fn":"relu",
         "category":6,
@@ -32,8 +32,8 @@
         "max_epoch":1000,
         "valid_step": 10,
         "valid_times":20,
-        "stop_train_step_valid_not_improve": 30,
-        "train_times_per_epoch":4,
+        "stop_train_step_valid_not_improve": 15,
+        "train_times_per_epoch":2,
         "batch_learn_times_per_train":2,
         "clip_grad_val":1,
         "optimizer_cfg":{
