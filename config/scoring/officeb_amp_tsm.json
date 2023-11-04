@@ -1,0 +1,89 @@
+{
+    "gpu_is_available": true,
+    "seed":5566,
+    "model":{
+        "name":"TSM",
+        "input_dim":[
+            151,
+            1,
+            4,
+            64,
+            50
+        ],
+        "n_outnets":1,
+        "is_norm_first": false,
+        "d_fc": 128,
+        "n_heads": 2,
+        "n_layers": 2,
+        "posenc_buffer_size": 260,
+        "hid_layers":[
+            32, 
+            16
+        ],
+        "activation_fn":"relu",
+        "category":6,
+        "net_init":false,
+        "loss_cfg":{
+            "name":"CrossEntropyLoss"
+        }
+    },
+    "train":{
+        "show_train_info":false,
+        "max_epoch":1000,
+        "valid_step": 10,
+        "valid_times":20,
+        "stop_train_step_valid_not_improve": 20,
+        "train_times_per_epoch":4,
+        "batch_learn_times_per_train":2,
+        "clip_grad_val":1,
+        "optimizer_cfg":{
+            "name":"Adam",
+            "lr":1e-4,
+            "weight_decay": 1e-08,
+            "betas": [
+                0.9,
+                0.999
+            ]
+        },
+        "lr_schedule_cfg":null,
+        "dataset":{
+            "src":[
+                "./data/datasets/process/round_5/ap_1/2023_10_20_3.data",
+                "./data/datasets/process/round_5/ap_1/2023_10_20_4.data",
+                "./data/datasets/process/round_5/ap_1/2023_10_20_5.data",
+                "./data/datasets/process/round_5/ap_1/2023_10_20_6.data",
+                "./data/datasets/process/round_5/ap_2/2023_10_20_3.data",
+                "./data/datasets/process/round_5/ap_2/2023_10_20_4.data",
+                "./data/datasets/process/round_5/ap_2/2023_10_20_5.data",
+                "./data/datasets/process/round_5/ap_2/2023_10_20_6.data",
+                "./data/datasets/process/round_5/ap_3/2023_10_20_3.data",
+                "./data/datasets/process/round_5/ap_3/2023_10_20_4.data",
+                "./data/datasets/process/round_5/ap_3/2023_10_20_5.data",
+                "./data/datasets/process/round_5/ap_3/2023_10_20_6.data"
+            ],
+            "valid_src":[
+                "./data/datasets/process/round_5/ap_1/2023_10_20_3.data",
+                "./data/datasets/process/round_5/ap_2/2023_10_20_4.data",
+                "./data/datasets/process/round_5/ap_3/2023_10_20_5.data"
+            ],
+            "loader_cfg":{
+                "is_data_sequence":true,
+                "csi_feature":[
+                    "amplitudes"
+                ],
+                "linux_num_workers":4,
+                "batch_size":1,
+                "shuffle":true
+            },
+            "loader_cfg_valid":{
+                "is_data_sequence":true,
+                "csi_feature":[
+                    "amplitudes"
+                ],
+                "linux_num_workers":4,
+                "batch_size":1,
+                "shuffle":true
+            }
+        }
+    }
+}

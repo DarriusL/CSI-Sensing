@@ -46,3 +46,10 @@ python executor.py -cfg='./config/tsm/amplitude_seq_tsm.json' --mode='train'
 python executor.py -cfg='./config/tsm/phase_tsm.json' --mode='train'
 ```
 
+```shell
+python executor.py -cfg='./config/scoring/officea_amp_tsm.json' --mode='train'
+python executor.py -cfg='./config/scoring/officeb_amp_tsm.json' --mode='train'
+python executor.py -cfg='./config/scoring/family1_amp_tsm.json' --mode='train'
+python executor.py -cfg='./config/scoring/family2_amp_tsm.json' --mode='train'
+```
+

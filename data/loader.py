@@ -83,10 +83,9 @@ class SeqDataset(Dataset):
     '''Dataset for loading sequence data
 
     Sampled data format:
-    data0: [batch_size, t, 4, 64]
-    (data1:[batch_size, t, 4, 64])
-    labels:[batch_size]
-    where t is regarded as the sequence length
+    data0: [batch_size, M, N, C, Ts]
+    (data1:[batch_size, M, N, C, Ts])
+    labels:[batch_size, L]
 
     Notes:
     ------

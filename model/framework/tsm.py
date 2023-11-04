@@ -7,6 +7,8 @@ from lib import glb_var
 from model import attnet, net_util
 from model.framework.base import Net
 
+device = glb_var.get_value('device')
+
 class Encoder(torch.nn.Module):
     '''Encoder for EGPC
 
@@ -93,7 +95,7 @@ class TSM(Net):
         in:[batch_size, M, N, C, Ts]
         out:[batch_size, L, category]
         '''
-        out = torch.zeros((self.batch_size, 0, self.category));
+        out = torch.zeros((self.batch_size, 0, self.category), device = device);
         feature = self.encoder(data[0].reshape(self.batch_size, -1, self.Ts)).flatten(1, -1);
         for dense in self.denses:
             out = torch.cat((out, dense(feature).unsqueeze(1)), dim = 1);
@@ -104,8 +106,8 @@ class TSM(Net):
         logits:[batch_size, L, category]
         labels:[batch_size, L]
         '''
-        loss = torch.zeros((1));
+        loss = torch.zeros((1), device = device);
         for l in range(self.n_outnets):
-            loss = loss + self.loss_fn(logtis[:, l, :], labels[:, l])
-        return ;
+            loss += self.loss_fn(logtis[:, l, :], labels[:, l])
+        return loss;
         

@@ -2,47 +2,43 @@
     "gpu_is_available": true,
     "seed":5566,
     "model":{
-        "name":"AmplitudeMLP",
+        "name":"TSM",
         "input_dim":[
-            -1,
+            151,
             1,
             4,
             64,
             50
         ],
+        "n_outnets":1,
+        "is_norm_first": false,
+        "d_fc": 128,
+        "n_heads": 2,
+        "n_layers": 2,
+        "posenc_buffer_size": 260,
         "hid_layers":[
-            64,
             32, 
             16
         ],
         "activation_fn":"relu",
-        "category":5,
+        "category":6,
         "net_init":false,
         "loss_cfg":{
-            "name":"FocalLoss",
-            "alphas":[
-                0.13586,
-                0.17879,
-                0.2112275,
-                0.2335675,
-                0.240555
-            ],
-            "gamma":2,
-            "reduction":"mean"
+            "name":"CrossEntropyLoss"
         }
     },
     "train":{
         "show_train_info":false,
         "max_epoch":1000,
         "valid_step": 10,
-        "valid_times":10,
-        "stop_train_step_valid_not_improve": 10,
-        "train_times_per_epoch":1,
-        "batch_learn_times_per_train":1,
+        "valid_times":20,
+        "stop_train_step_valid_not_improve": 30,
+        "train_times_per_epoch":4,
+        "batch_learn_times_per_train":2,
         "clip_grad_val":1,
         "optimizer_cfg":{
             "name":"Adam",
-            "lr":2e-4,
+            "lr":1e-4,
             "weight_decay": 1e-08,
             "betas": [
                 0.9,
@@ -58,24 +54,21 @@
                 "./data/datasets/process/round_1/room_2/2023_09_09_21_43.data",
                 "./data/datasets/process/round_1/room_2/2023_09_09_21_51.data",
                 "./data/datasets/process/round_1/room_2/2023_09_09_22_06.data",
-        
                 "./data/datasets/process/round_2/room_3/2023_09_09_16_02.data",
                 "./data/datasets/process/round_2/room_3/2023_09_09_19_10.data",
                 "./data/datasets/process/round_2/room_3/2023_09_09_19_25.data",
                 "./data/datasets/process/round_2/room_3/2023_09_09_19_53.data",
                 "./data/datasets/process/round_2/room_3/2023_09_09_20_31.data",
                 "./data/datasets/process/round_2/room_3/2023_09_09_20_40.data",
-                
                 "./data/datasets/process/round_3/room_3/2023_09_11_15_14.data",
                 "./data/datasets/process/round_3/room_3/2023_09_11_15_31.data",
                 "./data/datasets/process/round_3/room_3/2023_09_11_21_40.data",
                 "./data/datasets/process/round_3/room_3/2023_09_11_21_46.data",
                 "./data/datasets/process/round_3/room_3/2023_09_12_19_10.data",
-   
-
                 "./data/datasets/process/round_4/room_0/ap_1/2023_10_16_1.data",
                 "./data/datasets/process/round_4/room_0/ap_1/2023_10_16_2.data",
                 "./data/datasets/process/round_4/room_0/ap_1/2023_10_16_3.data",
+                "./data/datasets/process/round_4/room_0/ap_2/2023_10_16_1.data",
                 "./data/datasets/process/round_4/room_0/ap_2/2023_10_16_2.data",
                 "./data/datasets/process/round_4/room_0/ap_2/2023_10_16_3.data",
                 "./data/datasets/process/round_4/room_1/ap_1/2023_10_16_1.data",
@@ -98,25 +91,31 @@
                 "./data/datasets/process/round_4/room_3/ap_2/2023_10_16_3.data"
             ],
             "valid_src":[
-                "./data/datasets/process/round_4/room_0/ap_2/2023_10_16_1.data"
+                "./data/datasets/process/round_1/room_2/2023_09_09_21_20.data",
+                "./data/datasets/process/round_2/room_3/2023_09_09_19_25.data",
+                "./data/datasets/process/round_3/room_3/2023_09_11_21_40.data",
+                "./data/datasets/process/round_4/room_0/ap_1/2023_10_16_3.data",
+                "./data/datasets/process/round_4/room_1/ap_1/2023_10_16_3.data",
+                "./data/datasets/process/round_4/room_2/ap_2/2023_10_16_1.data"
+
             ],
             "loader_cfg":{
-                "is_data_sequence":false,
+                "is_data_sequence":true,
                 "csi_feature":[
                     "amplitudes"
                 ],
                 "linux_num_workers":4,
-                "batch_size":512,
+                "batch_size":1,
                 "shuffle":true
             },
             "loader_cfg_valid":{
-                "is_data_sequence":false,
+                "is_data_sequence":true,
                 "csi_feature":[
                     "amplitudes"
                 ],
                 "linux_num_workers":4,
-                "batch_size":151,
-                "shuffle":false
+                "batch_size":1,
+                "shuffle":true
             }
         }
     }

@@ -49,7 +49,7 @@ class Trainer(object):
         dataset_train = self._load_dataset(dataset_cfg['src']);
         dataset_valid = self._load_dataset(dataset_cfg['valid_src'])
         train_wrapper = generate_LoaderWrapper(dataset_train, dataset_cfg['loader_cfg'], mode = 'train');
-        valid_wrapper = generate_LoaderWrapper(dataset_valid, dataset_cfg['loader_cfg'], mode = 'valid');
+        valid_wrapper = generate_LoaderWrapper(dataset_valid, dataset_cfg['loader_cfg_valid'], mode = 'valid');
         return train_wrapper, valid_wrapper
     
     def _check_nan(self, loss):
@@ -130,7 +130,7 @@ class Trainer(object):
                 
                 self.valid_loss.append(np.mean(epoch_valid_loss));
                 self.valid_acc.append(np.mean(epoch_valid_acc));
-                if self.valid_acc[-1] >= self.valid_min_acc:
+                if self.valid_acc[-1] > self.valid_min_acc or (self.valid_acc[-1] == self.valid_min_acc and self.train_acc[-1] == max(self.train_acc)):
                     self._save_point(epoch);
                     epoch_best = epoch;
                     self.valid_min_acc = self.valid_acc[-1];

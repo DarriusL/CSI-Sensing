@@ -114,6 +114,15 @@
                 "linux_num_workers":4,
                 "batch_size":512,
                 "shuffle":true
+            },
+            "loader_cfg_valid":{
+                "is_data_sequence":false,
+                "csi_feature":[
+                    "amplitudes"
+                ],
+                "linux_num_workers":4,
+                "batch_size":151,
+                "shuffle":false
             }
         }
     }

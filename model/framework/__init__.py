@@ -13,7 +13,7 @@ def generate_model(net_cfg):
         net =  MLP(net_cfg);
     elif net_cfg['name'] == 'MixMLP':
         net = MixMLP(net_cfg);
-    elif  net_cfg['name'] in ['AmplitudeTSM', 'PhaseTSM']:
+    elif  net_cfg['name'] in ['AmplitudeTSM', 'PhaseTSM', 'TSM']:
         net = TSM(net_cfg)
     else:
         logger.error(f'Name of net [{net_cfg["name"]}] is not supported.\nPlease replace or add by yourself.')
